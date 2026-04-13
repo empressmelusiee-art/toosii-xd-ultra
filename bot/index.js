@@ -1389,6 +1389,7 @@ function updatePrefixImmediately(newPrefix) {
         timestamp: new Date().toISOString()
     };
 }
+globalThis.updatePrefixImmediately = updatePrefixImmediately;
 
 // ====== GLOBAL VARIABLES ======
 let OWNER_NUMBER = null;
