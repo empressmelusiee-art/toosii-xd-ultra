@@ -387,59 +387,67 @@ const meditatCmd = {
 
         await sock.sendMessage(chatId, { text: card }, { quoted: msg });
 
-        // Notify the hymnal tune is generating (takes ~2-3 min)
+        // Notify: composing the hymnal vocal track
         await sock.sendMessage(chatId, {
-            text: `╔═|〔  🎵 HYMNAL TUNE 〕\n║\n║ ▸ *Hymn*   : ${s.hymnName}\n║ ▸ *Status* : ⏳ Generating... (~2-3 mins)\n║ ▸ *Style*  : Gospel · Calm · Instrumental\n║\n╚═|〔 ${name} 〕`
+            text: [
+                `╔═|〔  🎵 HYMNAL TUNE 〕`,
+                `║`,
+                `║ ▸ *Hymn*   : ${s.hymnName}`,
+                `║ ▸ *Status* : ⏳ Composing... (~2-3 mins)`,
+                `║ ▸ *Style*  : Gospel · Calm · Female Vocal`,
+                `║ ▸ *Lyrics* : Your affirmation, sung ✨`,
+                `║`,
+                `╚═|〔 ${name} 〕`,
+            ].join('\n')
         }, { quoted: msg });
 
-        // Run TTS affirmation + hymnal music generation in parallel
+        // Build lyrics from the affirmation + focus point (the voice will SING these)
         const cleanAffirm = s.affirm.replace(/_/g, '').trim();
-        const ttsText     = `Welcome to your ${s.title.replace(/[🌅🌊🔥🌙🌿]/g, '').trim()} session. ${s.focus} Remember this affirmation: ${cleanAffirm}`;
+        const cleanFocus  = s.focus.trim();
+        const lyrics = [
+            cleanAffirm,
+            cleanAffirm,
+            cleanFocus,
+            cleanAffirm,
+        ].join('\n');
 
-        const [ttsResult, musicResult] = await Promise.allSettled([
-            speakText(ttsText, 'nova'),
-            casperGet('/api/tools/text-to-music', {
-                prompt      : s.hymnPrompt,
-                genre       : 'Gospel',
-                mood        : 'Calm',
-                vocal       : 'Female',
-            }, 210000),
-        ]);
+        try {
+            const data = await casperGet('/api/tools/text-to-music', {
+                prompt : s.hymnPrompt,
+                genre  : 'Gospel',
+                mood   : 'Calm',
+                vocal  : 'Female',
+                lyrics,
+            }, 210000);
 
-        // Send TTS affirmation audio
-        if (ttsResult.status === 'fulfilled') {
-            try {
-                const { buf, mime } = ttsResult.value;
-                await sock.sendMessage(chatId, { audio: buf, mimetype: mime, ptt: false }, { quoted: msg });
-            } catch {}
-        }
+            const audioUrl = data.audioUrl || data.audio_url || data.url;
+            if (!audioUrl) throw new Error('No audio URL returned');
 
-        // Send hymnal music MP3
-        if (musicResult.status === 'fulfilled') {
-            try {
-                const data     = musicResult.value;
-                const audioUrl = data.audioUrl || data.audio_url || data.url;
-                if (!audioUrl) throw new Error('No audio URL');
-                const buf      = await dlBuffer(audioUrl);
-                const caption  = [
-                    `╔═|〔  🎵 HYMNAL TUNE READY 〕`,
-                    `║`,
-                    `║ ▸ *Hymn*    : ${s.hymnName}`,
-                    `║ ▸ *Session* : ${s.title}`,
-                    `║ ▸ *Genre*   : Gospel · Calm`,
-                    `║`,
-                    `║ 🙏 Let this tune guide your spirit`,
-                    `║`,
-                    `╚═|〔 ${name} 〕`,
-                ].join('\n');
-                await sock.sendMessage(chatId, {
-                    audio    : buf,
-                    mimetype : 'audio/mpeg',
-                    ptt      : false,
-                    fileName : `${s.hymnName.replace(/\s+/g, '_')}.mp3`,
-                    caption,
-                }, { quoted: msg });
-            } catch {}
+            const buf = await dlBuffer(audioUrl);
+
+            const caption = [
+                `╔═|〔  🎵 HYMNAL TUNE READY 〕`,
+                `║`,
+                `║ ▸ *Hymn*    : ${s.hymnName}`,
+                `║ ▸ *Session* : ${s.title}`,
+                `║ ▸ *Voice*   : Female Gospel`,
+                `║ ▸ *Lyrics*  : ${cleanAffirm.substring(0, 45)}...`,
+                `║`,
+                `║ 🙏 Let this tune guide your spirit`,
+                `║`,
+                `╚═|〔 ${name} 〕`,
+            ].join('\n');
+
+            await sock.sendMessage(chatId, {
+                audio    : buf,
+                mimetype : 'audio/mpeg',
+                ptt      : false,
+                fileName : `${s.hymnName.replace(/\s+/g, '_')}.mp3`,
+                caption,
+            }, { quoted: msg });
+
+        } catch (e) {
+            // Silent fail — text card already delivered
         }
     }
 };
