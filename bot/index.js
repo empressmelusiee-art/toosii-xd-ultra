@@ -5109,12 +5109,12 @@ async function startBot(loginMode = 'auto', loginData = null) {
                         // ── RAM sampled last — freshest reading just before build ──
                         const targetJid     = (ownerInfo && ownerInfo.ownerJid) ? ownerInfo.ownerJid : sock.user.id;
                         const _pingStart    = Date.now();
-                        const _totalMem     = _os.totalmem();
-                        const _usedSysMem   = _totalMem - _os.freemem();           // real OS RAM in use
-                        const _liveRss      = process.memoryUsage().rss;           // bot process footprint
+                        const _mem          = process.memoryUsage();
+                        const _liveRss      = _mem.rss;
                         const usedMB        = (_liveRss / 1024 / 1024).toFixed(1);
-                        const totalGB       = (_totalMem / 1024 / 1024 / 1024).toFixed(2);
-                        const ramPct        = Math.min(100, Math.round((_usedSysMem / _totalMem) * 100));
+                        const totalGB       = (_os.totalmem() / 1024 / 1024 / 1024).toFixed(2);
+                        // Bar = bot heap fill (heapUsed/heapTotal) — dynamic, reflects actual bot load
+                        const ramPct        = Math.min(100, Math.round((_mem.heapUsed / _mem.heapTotal) * 100));
                         const filled        = Math.round(ramPct / 10);
                         const ramBar        = '█'.repeat(filled) + '░'.repeat(10 - filled);
 
