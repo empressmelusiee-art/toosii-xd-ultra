@@ -16,6 +16,15 @@ const CAT_EMOJI = {
     channel:    '📢',
     download:   '📥',
     games:      '🎮',
+    education:  '📚',
+    spiritual:  '🕊️',
+    fun:        '😂',
+    sports:     '⚽',
+    news:       '📰',
+    stalker:    '🔍',
+    image:      '🖼️',
+    movie:      '🎬',
+    search:     '🔎',
 };
 
 // Built-in commands defined in index.js (not in toosi-cmds files)
@@ -133,7 +142,7 @@ module.exports = {
         lines.push(`║`);
 
         // ── Categories ───────────────────────────────────────────
-        const order  = ['utility', 'owner', 'ai', 'group', 'automation', 'channel', 'download'];
+        const order  = ['utility', 'owner', 'ai', 'group', 'automation', 'channel', 'download', 'education', 'spiritual', 'fun', 'sports', 'news', 'stalker', 'image', 'movie', 'search'];
         const sorted = [
             ...order.filter(k => cats[k]?.length),
             ...Object.keys(cats).filter(k => !order.includes(k) && cats[k]?.length),

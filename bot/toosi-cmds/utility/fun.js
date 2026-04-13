@@ -21,9 +21,9 @@ async function fetchFact() {
 }
 
 module.exports = {
-    name: 'quote',
-    aliases: ['joke', 'fact', 'inspiration', 'q'],
-    description: 'Get a random quote, joke, or fun fact',
+    name: 'quotable',
+    aliases: ['quotabl', 'qfun'],
+    description: 'Get a random quote from public Quotable API',
     category: 'utility',
 
     async execute(sock, msg, args, prefix, ctx) {
