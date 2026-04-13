@@ -9,6 +9,8 @@ module.exports = {
     async execute(sock, msg, args, prefix, ctx) {
         const chatId = msg.key.remoteJid;
 
+        try { await sock.sendMessage(chatId, { react: { text: '📤', key: msg.key } }); } catch {}
+
         if (!ctx?.isOwnerUser && !ctx?.isSudoUser) {
             return sock.sendMessage(chatId, {
                 text: `╔═|〔  TO STATUS 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═╝`

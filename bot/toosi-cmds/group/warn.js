@@ -1,8 +1,12 @@
-const { getTarget, resolveDisplay } = require('../../lib/groupUtils');
+'use strict';
+
+const { getTarget, resolveDisplay, checkPrivilege } = require('../../lib/groupUtils');
+const { getBotName } = require('../../lib/botname');
 const fs   = require('fs');
 const path = require('path');
 
 const WARN_FILE = path.join(__dirname, '../../data/warnings.json');
+const MAX_WARNS = 3;
 
 function loadWarns() {
     try { return JSON.parse(fs.readFileSync(WARN_FILE, 'utf8')); } catch { return {}; }
@@ -15,15 +19,35 @@ function getKey(chatId, jid) { return `${chatId}::${jid.split('@')[0].split(':')
 
 module.exports = [
     {
-        name: 'warn',
-        aliases: ['warning'],
-        description: 'Warn a group member',
-        category: 'group',
+        name:        'warn',
+        aliases:     ['warning'],
+        description: 'Warn a group member — auto-kick at 3 warns (sudo/admin only)',
+        category:    'group',
         async execute(sock, msg, args, prefix, ctx) {
             const chatId = msg.key.remoteJid;
-            if (!chatId.endsWith('@g.us')) return sock.sendMessage(chatId, { text: `╔═|〔  WARN 〕\n║\n║ ▸ Group only command\n║\n╚═╝` }, { quoted: msg });
+            const name   = getBotName();
+            try { await sock.sendMessage(chatId, { react: { text: '⚠️', key: msg.key } }); } catch {}
+
+            if (!chatId.endsWith('@g.us')) {
+                return sock.sendMessage(chatId, {
+                    text: `╔═|〔  WARN 〕\n║\n║ ▸ *Status* : ❌ Group only\n║\n╚═|〔 ${name} 〕`
+                }, { quoted: msg });
+            }
+
+            const { ok } = await checkPrivilege(sock, chatId, msg, ctx);
+            if (!ok) {
+                return sock.sendMessage(chatId, {
+                    text: `╔═|〔  WARN 〕\n║\n║ ▸ *Status* : ❌ Permission denied\n║ ▸ *Reason* : Sudo users and group admins only\n║\n╚═|〔 ${name} 〕`
+                }, { quoted: msg });
+            }
+
             const target = getTarget(msg, args);
-            if (!target) return sock.sendMessage(chatId, { text: `╔═|〔  WARN 〕\n║\n║ ▸ *Usage* : ${prefix}warn @user or reply a message\n║\n╚═╝` }, { quoted: msg });
+            if (!target) {
+                return sock.sendMessage(chatId, {
+                    text: `╔═|〔  WARN 〕\n║\n║ ▸ *Usage* : ${prefix}warn @user [reason]\n║\n╚═|〔 ${name} 〕`
+                }, { quoted: msg });
+            }
+
             const reason  = args.filter(a => !a.startsWith('@')).join(' ').trim() || 'No reason given';
             const display = await resolveDisplay(sock, chatId, target);
             const warns   = loadWarns();
@@ -31,55 +55,85 @@ module.exports = [
             warns[key]    = (warns[key] || 0) + 1;
             saveWarns(warns);
             const count   = warns[key];
-            const MAX     = 3;
             let extra     = '';
-            if (count >= MAX) {
+            if (count >= MAX_WARNS) {
                 try {
                     await sock.groupParticipantsUpdate(chatId, [target], 'remove');
-                    extra = `\n║ ▸ *Action*  : 🚫 Auto-kicked (${MAX} warns)`;
+                    extra = `\n║ ▸ *Action*  : 🚫 Auto-kicked (${MAX_WARNS} warns)`;
                     warns[key] = 0;
                     saveWarns(warns);
                 } catch {}
             }
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  WARN 〕\n║\n║ ▸ *User*    : ${display}\n║ ▸ *Reason*  : ${reason}\n║ ▸ *Warns*   : ${Math.min(count, MAX)}/${MAX}${extra}\n║\n╚═╝`
+                text: `╔═|〔  WARN 〕\n║\n║ ▸ *User*   : ${display}\n║ ▸ *Reason* : ${reason}\n║ ▸ *Warns*  : ${Math.min(count, MAX_WARNS)}/${MAX_WARNS}${extra}\n║\n╚═|〔 ${name} 〕`
             }, { quoted: msg });
         }
     },
     {
-        name: 'warns',
-        aliases: ['warnlist','checkwarn'],
-        description: 'Check warnings for a user',
-        category: 'group',
+        name:        'warns',
+        aliases:     ['warnlist', 'checkwarn'],
+        description: 'Check how many warnings a user has',
+        category:    'group',
         async execute(sock, msg, args, prefix, ctx) {
             const chatId = msg.key.remoteJid;
-            if (!chatId.endsWith('@g.us')) return sock.sendMessage(chatId, { text: `╔═|〔  WARNS 〕\n║\n║ ▸ Group only command\n║\n╚═╝` }, { quoted: msg });
+            const name   = getBotName();
+            try { await sock.sendMessage(chatId, { react: { text: '📋', key: msg.key } }); } catch {}
+
+            if (!chatId.endsWith('@g.us')) {
+                return sock.sendMessage(chatId, {
+                    text: `╔═|〔  WARNS 〕\n║\n║ ▸ *Status* : ❌ Group only\n║\n╚═|〔 ${name} 〕`
+                }, { quoted: msg });
+            }
+
             const target = getTarget(msg, args);
-            if (!target) return sock.sendMessage(chatId, { text: `╔═|〔  WARNS 〕\n║\n║ ▸ *Usage* : ${prefix}warns @user or reply a message\n║\n╚═╝` }, { quoted: msg });
+            if (!target) {
+                return sock.sendMessage(chatId, {
+                    text: `╔═|〔  WARNS 〕\n║\n║ ▸ *Usage* : ${prefix}warns @user or reply a message\n║\n╚═|〔 ${name} 〕`
+                }, { quoted: msg });
+            }
             const display = await resolveDisplay(sock, chatId, target);
             const warns   = loadWarns();
             const count   = warns[getKey(chatId, target)] || 0;
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  WARNS 〕\n║\n║ ▸ *User*  : ${display}\n║ ▸ *Warns* : ${count}/3\n║\n╚═╝`
+                text: `╔═|〔  WARNS 〕\n║\n║ ▸ *User*  : ${display}\n║ ▸ *Warns* : ${count}/${MAX_WARNS}\n║\n╚═|〔 ${name} 〕`
             }, { quoted: msg });
         }
     },
     {
-        name: 'resetwarn',
-        aliases: ['clearwarn','unwarn'],
-        description: 'Reset warnings for a user',
-        category: 'group',
+        name:        'resetwarn',
+        aliases:     ['clearwarn', 'unwarn'],
+        description: 'Reset warnings for a user (sudo/admin only)',
+        category:    'group',
         async execute(sock, msg, args, prefix, ctx) {
             const chatId = msg.key.remoteJid;
-            if (!chatId.endsWith('@g.us')) return sock.sendMessage(chatId, { text: `╔═|〔  RESET WARN 〕\n║\n║ ▸ Group only command\n║\n╚═╝` }, { quoted: msg });
+            const name   = getBotName();
+            try { await sock.sendMessage(chatId, { react: { text: '🔄', key: msg.key } }); } catch {}
+
+            if (!chatId.endsWith('@g.us')) {
+                return sock.sendMessage(chatId, {
+                    text: `╔═|〔  RESET WARN 〕\n║\n║ ▸ *Status* : ❌ Group only\n║\n╚═|〔 ${name} 〕`
+                }, { quoted: msg });
+            }
+
+            const { ok } = await checkPrivilege(sock, chatId, msg, ctx);
+            if (!ok) {
+                return sock.sendMessage(chatId, {
+                    text: `╔═|〔  RESET WARN 〕\n║\n║ ▸ *Status* : ❌ Permission denied\n║ ▸ *Reason* : Sudo users and group admins only\n║\n╚═|〔 ${name} 〕`
+                }, { quoted: msg });
+            }
+
             const target = getTarget(msg, args);
-            if (!target) return sock.sendMessage(chatId, { text: `╔═|〔  RESET WARN 〕\n║\n║ ▸ *Usage* : ${prefix}resetwarn @user or reply a message\n║\n╚═╝` }, { quoted: msg });
+            if (!target) {
+                return sock.sendMessage(chatId, {
+                    text: `╔═|〔  RESET WARN 〕\n║\n║ ▸ *Usage* : ${prefix}resetwarn @user or reply a message\n║\n╚═|〔 ${name} 〕`
+                }, { quoted: msg });
+            }
             const display = await resolveDisplay(sock, chatId, target);
             const warns   = loadWarns();
             warns[getKey(chatId, target)] = 0;
             saveWarns(warns);
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  RESET WARN 〕\n║\n║ ▸ *User*   : ${display}\n║ ▸ *Status* : ✅ Warnings cleared\n║\n╚═╝`
+                text: `╔═|〔  RESET WARN 〕\n║\n║ ▸ *User*   : ${display}\n║ ▸ *Status* : ✅ Warnings cleared\n║\n╚═|〔 ${name} 〕`
             }, { quoted: msg });
         }
     }

@@ -357,6 +357,24 @@
           "timestamp": 1776097779185,
           "action": "add",
           "addedBy": "unknown"
+        },
+        {
+          "jid": "17292293328974@lid",
+          "name": "17292293328974",
+          "number": "17292293328974",
+          "addedAt": "2026-04-13T16:39:33.190Z",
+          "timestamp": 1776098373190,
+          "action": "add",
+          "addedBy": "unknown"
+        },
+        {
+          "jid": "119302011232453@lid",
+          "name": "119302011232453",
+          "number": "119302011232453",
+          "addedAt": "2026-04-13T16:40:08.355Z",
+          "timestamp": 1776098408355,
+          "action": "add",
+          "addedBy": "unknown"
         }
       ],
       "120363422085315983@g.us": [
@@ -820,7 +838,7 @@
         }
       ]
     },
-    "updatedAt": "2026-04-13T16:29:39.185Z",
+    "updatedAt": "2026-04-13T16:40:08.355Z",
     "totalGroups": 6
   },
   "owner_data": {
@@ -829,7 +847,7 @@
     "OWNER_CLEAN_JID": "254706441840@s.whatsapp.net",
     "OWNER_CLEAN_NUMBER": "254706441840",
     "ownerLID": null,
-    "linkedAt": "2026-04-13T16:36:49.042Z",
+    "linkedAt": "2026-04-13T16:41:28.298Z",
     "autoLinked": false,
     "previousOwnerCleared": true,
     "version": "1.1.6"

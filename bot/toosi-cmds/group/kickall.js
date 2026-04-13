@@ -1,11 +1,37 @@
+'use strict';
+
+const { checkPrivilege } = require('../../lib/groupUtils');
+const { getBotName }     = require('../../lib/botname');
+
 module.exports = {
-    name: 'kickall',
-    aliases: ['removeall','cleargroup'],
-    description: 'Kick all non-admin members from the group',
-    category: 'group',
+    name:        'kickall',
+    aliases:     ['removeall', 'cleargroup'],
+    description: 'Kick all non-admin members from the group (sudo/admin only)',
+    category:    'group',
+
     async execute(sock, msg, args, prefix, ctx) {
         const chatId  = msg.key.remoteJid;
-        if (!chatId.endsWith('@g.us')) return sock.sendMessage(chatId, { text: `╔═|〔  KICK ALL 〕\n║\n║ ▸ Group only command\n║\n╚═╝` }, { quoted: msg });
+        const name    = getBotName();
+        try { await sock.sendMessage(chatId, { react: { text: '🧹', key: msg.key } }); } catch {}
+
+        if (!chatId.endsWith('@g.us')) {
+            return sock.sendMessage(chatId, {
+                text: `╔═|〔  KICK ALL 〕\n║\n║ ▸ *Status* : ❌ Group only\n║\n╚═|〔 ${name} 〕`
+            }, { quoted: msg });
+        }
+
+        const { ok, isBotAdmin } = await checkPrivilege(sock, chatId, msg, ctx);
+        if (!ok) {
+            return sock.sendMessage(chatId, {
+                text: `╔═|〔  KICK ALL 〕\n║\n║ ▸ *Status* : ❌ Permission denied\n║ ▸ *Reason* : Sudo users and group admins only\n║\n╚═|〔 ${name} 〕`
+            }, { quoted: msg });
+        }
+        if (!isBotAdmin) {
+            return sock.sendMessage(chatId, {
+                text: `╔═|〔  KICK ALL 〕\n║\n║ ▸ *Status* : ❌ Bot is not an admin\n║ ▸ *Reason* : Promote the bot first\n║\n╚═|〔 ${name} 〕`
+            }, { quoted: msg });
+        }
+
         const confirm = args[0]?.toLowerCase();
         if (confirm !== 'yes') return sock.sendMessage(chatId, {
             text: `╔═|〔  KICK ALL 〕\n║\n║ ▸ ⚠️ This will kick ALL non-admin\n║    members from the group!\n║\n║ ▸ *Confirm* : ${prefix}kickall yes\n║\n╚═╝`

@@ -148,4 +148,37 @@ function _lookupName(jid, resolvedDisplay) {
     return null;
 }
 
-module.exports = { getTarget, resolveDisplay, resolvePhone, resolveDisplayWithName };
+/**
+ * Check if the message sender is privileged (owner, sudo, or group admin).
+ * Also returns whether the bot itself is a group admin.
+ * @returns {{ ok: boolean, isBotAdmin: boolean }}
+ */
+async function checkPrivilege(sock, chatId, msg, ctx) {
+    if (ctx?.isOwnerUser || ctx?.isSudoUser) {
+        // Still check bot admin status
+        const senderJid = sock.user?.id || '';
+        const botNum    = senderJid.split('@')[0].split(':')[0];
+        try {
+            const meta    = await sock.groupMetadata(chatId);
+            const botPart = meta.participants.find(p => (p.id || '').split('@')[0].split(':')[0] === botNum);
+            const isBotAdmin = botPart?.admin === 'admin' || botPart?.admin === 'superadmin';
+            return { ok: true, isBotAdmin };
+        } catch { return { ok: true, isBotAdmin: false }; }
+    }
+    const senderJid = msg.key.participant || msg.key.remoteJid;
+    const senderNum = senderJid.split('@')[0].split(':')[0];
+    const botNum    = (sock.user?.id || '').split('@')[0].split(':')[0];
+    try {
+        const meta       = await sock.groupMetadata(chatId);
+        const senderPart = meta.participants.find(p => {
+            const pNum = (p.id || '').split('@')[0].split(':')[0];
+            return pNum === senderNum || p.id === senderJid;
+        });
+        const botPart    = meta.participants.find(p => (p.id || '').split('@')[0].split(':')[0] === botNum);
+        const ok         = senderPart?.admin === 'admin' || senderPart?.admin === 'superadmin';
+        const isBotAdmin = botPart?.admin    === 'admin' || botPart?.admin    === 'superadmin';
+        return { ok, isBotAdmin };
+    } catch { return { ok: false, isBotAdmin: false }; }
+}
+
+module.exports = { getTarget, resolveDisplay, resolvePhone, resolveDisplayWithName, checkPrivilege };
