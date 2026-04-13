@@ -113,33 +113,16 @@ module.exports = {
             let lines = [];
 
             if (isOwnRepo) {
-                // ── Own bot repo — professional CTA card ──────────────────
-                const stars    = ghOk ? num(r.stargazers_count) : '—';
-                const forks    = ghOk ? num(r.forks_count)      : '—';
-                const watchers = ghOk ? num(r.subscribers_count) : '—';
-                const version  = global.VERSION || '1.1.5';
+                // ── Own bot repo — clean CTA card ─────────────────────────
+                const stars = ghOk ? num(r.stargazers_count) : '—';
                 lines = [
                     `╔═|〔  🤖 TOOSII-XD ULTRA 〕`,
                     `║`,
-                    `║  The most feature-packed WhatsApp bot`,
-                    `║  230+ commands · 18+ categories`,
+                    `║ ⭐ *Stars* : ${stars}`,
                     `║`,
-                    `║ 📊 *Repo Stats*`,
-                    `║ ▸ ⭐ Stars    : ${stars}`,
-                    `║ ▸ 🍴 Forks    : ${forks}`,
-                    `║ ▸ 👁️  Watchers : ${watchers}`,
-                    `║ ▸ 🔖 Version  : v${version}`,
+                    `║ 🔗 https://github.com/${OWN_REPO}`,
                     `║`,
-                    `║ ⚡ *Categories*`,
-                    `║ ▸ 🤖 AI · 📥 Downloads · 🎮 Games`,
-                    `║ ▸ 📚 Education · 🕊️ Spiritual · 🔞 Adult`,
-                    `║ ▸ ⚙️ Automation · 📢 Channel Tools`,
-                    `║ ▸ 🔍 Stalker · 🖼️ Image · 🎬 Movies`,
-                    `║`,
-                    `║ 🔗 *GitHub*`,
-                    `║  https://github.com/${OWN_REPO}`,
-                    `║`,
-                    `║ ⭐ *Enjoyed the bot? Star the repo!*`,
+                    `║ ⭐ *Star the repo if you love this bot!*`,
                     `║ 🍴 *Fork & deploy your own instance*`,
                     `║ 📲 *Share with friends — it's free!*`,
                     `║`,
