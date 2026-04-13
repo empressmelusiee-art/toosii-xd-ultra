@@ -144,4 +144,28 @@ module.exports = [
         label: 'LLAMA AI',
         emoji: '🦙'
     }),
+    makeModel({
+        name: 'gemini',
+        aliases: ['geminikey', 'googleai', 'gemiai'],
+        description: 'Chat with Google Gemini AI',
+        endpoint: '/ai/gemini',
+        label: 'GEMINI AI',
+        emoji: '✨'
+    }),
+    makeModel({
+        name: 'grok',
+        aliases: ['grokkey', 'xai', 'grokai'],
+        description: 'Chat with xAI Grok',
+        endpoint: '/ai/grok',
+        label: 'GROK AI',
+        emoji: '🚀'
+    }),
+    makeModel({
+        name: 'metai',
+        aliases: ['meta', 'metaai', 'metalai'],
+        description: 'Chat with Meta AI',
+        endpoint: '/ai/metai',
+        label: 'META AI',
+        emoji: '🔵'
+    }),
 ];

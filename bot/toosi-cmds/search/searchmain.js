@@ -192,4 +192,29 @@ const apkCmd = {
     }
 };
 
-module.exports = [ytsCmd, googleCmd, braveCmd, bibleCmd, lyricsCmd, movieCmd, apkCmd];
+const soundcloudCmd = {
+    name: 'soundcloud',
+    aliases: ['sc2', 'scloud', 'scmusic'],
+    description: 'Search SoundCloud for tracks and artists',
+    category: 'search',
+    async execute(sock, msg, args, prefix, ctx) {
+        const chatId = msg.key.remoteJid;
+        const name   = getBotName();
+        const query  = args.join(' ').trim();
+        if (!query) return sock.sendMessage(chatId, { text: `╔═|〔  🎵 SOUNDCLOUD 〕\n║\n║ ▸ *Usage* : ${prefix}soundcloud <track/artist>\n║ ▸ *Example* : ${prefix}soundcloud faded\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+        try {
+            await sock.sendMessage(chatId, { react: { text: '🎵', key: msg.key } });
+            const data = await keithGet('/search/soundcloud', { q: query });
+            if (!data.status || !data.result?.result?.length) throw new Error(data.error || 'No results found');
+            const results = data.result.result.slice(0, 5);
+            const list = results.map((r, i) =>
+                `║ ▸ [${i + 1}] *${r.title || r.artist}*\n║      👤 ${r.artist || 'Unknown'} | 👁️ ${r.views || '—'}\n║      🔗 ${r.url || 'N/A'}`
+            ).join('\n║\n');
+            await sock.sendMessage(chatId, { text: `╔═|〔  🎵 SOUNDCLOUD 〕\n║\n║ 🔍 *${query}*\n║\n${list}\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+        } catch (e) {
+            await sock.sendMessage(chatId, { text: `╔═|〔  🎵 SOUNDCLOUD 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+        }
+    }
+};
+
+module.exports = [ytsCmd, googleCmd, braveCmd, bibleCmd, lyricsCmd, movieCmd, apkCmd, soundcloudCmd];
