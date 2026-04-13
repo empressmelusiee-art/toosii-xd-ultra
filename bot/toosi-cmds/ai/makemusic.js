@@ -105,7 +105,24 @@ const makemusicCmd = {
             if (vocal)        params.vocal        = vocalLabel;
             if (instrumental) params.instrumental = 'true';
 
-            const data = await casperGet('/api/tools/text-to-music', params, 210000);
+            // Retry up to 3 attempts on 502/503/504 (Casper overload)
+            let data, lastErr;
+            for (let attempt = 1; attempt <= 3; attempt++) {
+                try {
+                    data = await casperGet('/api/tools/text-to-music', params, 210000);
+                    lastErr = null;
+                    break;
+                } catch (e) {
+                    lastErr = e;
+                    const is5xx = /50[234]/.test(e.message);
+                    if (is5xx && attempt < 3) {
+                        await new Promise(r => setTimeout(r, 15000 * attempt));
+                        continue;
+                    }
+                    throw e;
+                }
+            }
+            if (lastErr) throw lastErr;
 
             if (!data.success) throw new Error(data.error || data.message || 'Music generation failed');
 
@@ -138,14 +155,21 @@ const makemusicCmd = {
             }, { quoted: msg });
 
         } catch (e) {
+            const is5xx  = /50[234]/.test(e.message);
+            const reason = is5xx
+                ? 'Casper servers are busy right now — tried 3 times'
+                : e.message;
+            const tip = is5xx
+                ? '⏳ Wait a few minutes then try again'
+                : '💡 Try again — generation can sometimes timeout';
             await sock.sendMessage(chatId, {
                 text: [
                     `╔═|〔  🎵 AI MUSIC 〕`,
                     `║`,
                     `║ ▸ *Status* : ❌ Failed`,
-                    `║ ▸ *Reason* : ${e.message}`,
+                    `║ ▸ *Reason* : ${reason}`,
                     `║`,
-                    `║ 💡 Try again — generation can sometimes timeout`,
+                    `║ ${tip}`,
                     `║`,
                     `╚═|〔 ${name} 〕`,
                 ].join('\n')
