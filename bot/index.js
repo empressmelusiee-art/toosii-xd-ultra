@@ -6582,7 +6582,7 @@ async function handleConnectionCloseSilently(lastDisconnect, loginMode, phoneNum
             UltraCleanLogger.error('❌ Session logged out permanently after multiple attempts.');
             UltraCleanLogger.error('❌ Your SESSION_ID has expired or been revoked by WhatsApp.');
             UltraCleanLogger.error('❌ Please generate a new SESSION_ID and update your environment.');
-            UltraCleanLogger.info('💡 To fix: Get a new SESSION_ID → set it in your .env or environment → restart the bot.');
+            UltraCleanLogger.info('💡 To fix: Get a new SESSION_ID → https://toosiitechdevelopertools.zone.id/session → set it in your .env → restart the bot.');
             return;
         }
         UltraCleanLogger.warning(`Session logged out (attempt ${connectionAttempts}/3). Cleaning session and retrying...`);
@@ -6640,7 +6640,7 @@ async function handleConnectionCloseSilently(lastDisconnect, loginMode, phoneNum
         if (connectionAttempts >= 3) {
             UltraCleanLogger.error(`❌ Auth error (${statusCode}) persisted after ${connectionAttempts} attempts.`);
             UltraCleanLogger.error('❌ Your session is no longer valid. Please generate a new SESSION_ID.');
-            UltraCleanLogger.info('💡 To fix: Get a new SESSION_ID → set it in your .env or environment → restart the bot.');
+            UltraCleanLogger.info('💡 To fix: Get a new SESSION_ID → https://toosiitechdevelopertools.zone.id/session → set it in your .env → restart the bot.');
             return;
         }
         UltraCleanLogger.warning(`Auth error (${statusCode}) detected (attempt ${connectionAttempts}/3), cleaning session...`);
