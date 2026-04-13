@@ -67,12 +67,47 @@ module.exports = {
         const chatId = msg.key.remoteJid;
         try { await sock.sendMessage(chatId, { react: { text: '🤖', key: msg.key } }); } catch {}
         const name   = getBotName();
-        const mode   = (process.env.BOT_MODE || cfg.MODE || 'public').toUpperCase();
-        const now    = new Date().toLocaleTimeString('en-US', {
+        const rawMode = (process.env.BOT_MODE || cfg.MODE || 'public').toLowerCase();
+        const modeMap = {
+            public:  '🌐 Public',
+            silent:  '🔇 Silent',
+            groups:  '👥 Groups Only',
+            dms:     '💬 DMs Only',
+            buttons: '🔘 Buttons',
+            channel: '📢 Channel',
+            default: '🌐 Public',
+        };
+        const mode = modeMap[rawMode] || rawMode.toUpperCase();
+
+        const now = new Date().toLocaleTimeString('en-US', {
             timeZone: cfg.TIME_ZONE,
             hour: '2-digit', minute: '2-digit',
         });
+
+        // ── Stats ─────────────────────────────────────────────────
+        const os      = require('os');
+        const upSecs  = Math.floor(process.uptime());
+        const upH     = Math.floor(upSecs / 3600);
+        const upM     = Math.floor((upSecs % 3600) / 60);
+        const upS     = upSecs % 60;
+        const uptimeStr = `${upH}h ${upM}m ${upS}s`;
+
+        const mem     = process.memoryUsage();
+        const usedMB  = (mem.rss / 1024 / 1024).toFixed(1);
+        const totalGB = (os.totalmem() / 1024 / 1024 / 1024).toFixed(2);
+        const ramPct  = Math.min(100, Math.round((mem.rss / os.totalmem()) * 100));
+        const filled  = Math.round(ramPct / 10);
+        const ramBar  = '█'.repeat(filled) + '░'.repeat(10 - filled);
+
+        const version = global.VERSION || cfg.VERSION || '1.1.5';
+
+        // Ping: measure sendReact round-trip
+        const pingStart = Date.now();
+        try { await sock.sendMessage(chatId, { react: { text: '⚡', key: msg.key } }); } catch {}
+        const pingMs = Date.now() - pingStart;
+
         const cats = loadCategories();
+        const totalCmds = Object.values(cats).reduce((s, arr) => s + arr.length, 0);
 
         let lines = [];
 
@@ -82,6 +117,13 @@ module.exports = {
         lines.push(`║  ▸ ■  *Prefix*   :  ${prefix || 'none'}`);
         lines.push(`║  ▸ ■  *Owner*    :  ${cfg.OWNER_NUMBER || 'Unknown'}`);
         lines.push(`║  ▸ ■  *Mode*     :  ${mode}`);
+        lines.push(`║  ▸ ■  *Version*  :  v${version}`);
+        lines.push(`║  ▸ ■  *Platform* :  ☁️ Replit`);
+        lines.push(`║  ▸ ■  *Speed*    :  ${pingMs}ms`);
+        lines.push(`║  ▸ ■  *Uptime*   :  ${uptimeStr}`);
+        lines.push(`║  ▸ ■  *Commands* :  ${totalCmds}`);
+        lines.push(`║  ▸ ■  *Usage*    :  ${usedMB} MB of ${totalGB} GB`);
+        lines.push(`║  ▸ ■  *RAM*      :  [${ramBar}] ${ramPct}%`);
         lines.push(`║  ▸ ■  *Time*     :  ${now}`);
         lines.push(`║`);
         lines.push(`║  👨‍💻  *Creator*    »  @toosiitech`);
