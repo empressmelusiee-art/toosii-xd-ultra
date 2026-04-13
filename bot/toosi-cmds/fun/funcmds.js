@@ -483,32 +483,6 @@ const ROASTS = [
     "Your vibe is 'someone just woke up from a nap they didn't mean to take and doesn't know what year it is.'",
 ];
 
-const insultCmd = {
-    name: 'insult',
-    aliases: ['burn', 'clap', 'zinger'],
-    description: 'Get a random insult/comeback line',
-    category: 'fun',
-    async execute(sock, msg, args, prefix, ctx) {
-        const chatId = msg.key.remoteJid;
-        const name   = getBotName();
-        const target = args.join(' ').trim();
-        try {
-            await sock.sendMessage(chatId, { react: { text: '🔥', key: msg.key } });
-            const data = await keithGet('/fun/insult');
-            if (!data.status || !data.result) throw new Error(data.error || 'No insult');
-            const line = data.result?.insult || data.result?.text || String(data.result);
-            const header = target
-                ? `╔═|〔  💢 INSULT 〕\n║\n║ 🎯 *Target:* ${target}\n║`
-                : `╔═|〔  💢 INSULT 〕\n║`;
-            await sock.sendMessage(chatId, {
-                text: `${header}\n║ _${line}_\n║\n╚═|〔 ${name} 〕`
-            }, { quoted: msg });
-        } catch (e) {
-            await sock.sendMessage(chatId, { text: `╔═|〔  💢 INSULT 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
-        }
-    }
-};
-
 const roastCmd = {
     name: 'roast',
     aliases: ['flame', 'diss', 'burnit', 'draghim', 'draghim', 'savage'],
@@ -531,5 +505,5 @@ const roastCmd = {
 module.exports = [
     truthCmd, dareCmd, wyrCmd, paranoiaCmd, pickuplineCmd,
     factCmd, nhieCmd, jokeCmd, memeCmd,
-    quizCmd, quoteCmd, quoteAudioCmd, insultCmd, roastCmd,
+    quizCmd, quoteCmd, quoteAudioCmd, roastCmd,
 ];
