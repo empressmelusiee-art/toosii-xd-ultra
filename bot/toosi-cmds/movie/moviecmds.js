@@ -1,57 +1,6 @@
 'use strict';
 
-const { spawn }    = require('child_process');
-const { casperGet, dlBuffer } = require('../../lib/keithapi');
 const { getBotName } = require('../../lib/botname');
-
-const MAX_TRAILER_BYTES = 50 * 1024 * 1024;
-
-// ── Dailymotion helpers ───────────────────────────────────────────────────────
-async function searchDailymotionTrailer(query) {
-    const url = `https://api.dailymotion.com/videos?search=${encodeURIComponent(query)}&fields=id,title&limit=5&private=0`;
-    const res  = await fetch(url, { signal: AbortSignal.timeout(12000), headers: { 'User-Agent': 'Mozilla/5.0 Chrome/120' } });
-    if (!res.ok) throw new Error(`DM search HTTP ${res.status}`);
-    const j = await res.json();
-    return (j.list || []).map(v => v.id);
-}
-
-async function getDailymotionHLS(dmId) {
-    const url = `https://www.dailymotion.com/player/metadata/video/${dmId}`;
-    const res  = await fetch(url, { signal: AbortSignal.timeout(10000), headers: { 'User-Agent': 'Mozilla/5.0 Chrome/120' } });
-    if (!res.ok) throw new Error(`DM meta HTTP ${res.status}`);
-    const j = await res.json();
-    const q = j.qualities || {};
-    const pick = (q['480'] || q['380'] || q['360'] || q['240'] || q['auto'] || [])[0];
-    if (!pick?.url) throw new Error('No HLS stream found');
-    return pick.url;
-}
-
-function ffmpegHlsToMp4(hlsUrl, maxSecs = 200) {
-    return new Promise((resolve, reject) => {
-        const chunks = [];
-        const ff = spawn('ffmpeg', [
-            '-y', '-t', String(maxSecs),
-            '-i', hlsUrl,
-            '-c:v', 'libx264', '-c:a', 'aac',
-            '-preset', 'ultrafast', '-crf', '28',
-            '-vf', 'scale=480:-2',
-            '-f', 'mp4', 'pipe:1'
-        ]);
-        ff.stdout.on('data', c => chunks.push(c));
-        ff.stdout.on('end', () => {
-            const buf = Buffer.concat(chunks);
-            if (buf.length < 50000) return reject(new Error('ffmpeg output too small'));
-            if (buf.length > MAX_TRAILER_BYTES) return reject(new Error('Trailer file too large'));
-            resolve(buf);
-        });
-        ff.stderr.on('data', () => {});
-        ff.on('error', reject);
-        ff.on('close', code => {
-            if (code !== 0 && !chunks.length) reject(new Error(`ffmpeg exited ${code}`));
-        });
-        setTimeout(() => { try { ff.kill('SIGKILL'); } catch { } }, 240000);
-    });
-}
 
 const MOVIE_API = 'https://movieapi.xcasper.space';
 const MOVIE_HEADERS = {
@@ -163,74 +112,6 @@ const movieCmd = {
         } catch (e) {
             await sock.sendMessage(chatId, {
                 text: `╔═|〔  🎬 MOVIE INFO 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
-            }, { quoted: msg });
-        }
-    }
-};
-
-// ── Trailer ───────────────────────────────────────────────────────────────────
-const trailerCmd = {
-    name: 'trailer',
-    aliases: ['movietrailer', 'gettrailer', 'movtrailer'],
-    description: 'Get a movie trailer video — .trailer <title>',
-    category: 'movie',
-    async execute(sock, msg, args, prefix) {
-        const chatId = msg.key.remoteJid;
-        const name   = getBotName();
-        const input  = args.join(' ').trim();
-        if (!input) return sock.sendMessage(chatId, {
-            text: `╔═|〔  🎬 MOVIE TRAILER 〕\n║\n║ ▸ *Usage*   : ${prefix}trailer <movie title>\n║ ▸ *Example* : ${prefix}trailer dark knight\n║\n╚═|〔 ${name} 〕`
-        }, { quoted: msg });
-
-        try {
-            await sock.sendMessage(chatId, { react: { text: '🎬', key: msg.key } });
-            await sock.sendMessage(chatId, {
-                text: `╔═|〔  🎬 MOVIE TRAILER 〕\n║\n║ ⏳ Searching & downloading trailer...\n║ *(may take up to 60 seconds)*\n║\n╚═|〔 ${name} 〕`
-            }, { quoted: msg });
-
-            // 1. Identify movie via ShowBox
-            const results = await sbSearch(input, 'movie', 3);
-            if (!results.length) throw new Error('Movie not found');
-
-            const data = await sbMovie(results[0].id);
-            if (!data)  throw new Error('Could not fetch movie details');
-
-            const title = data.title;
-            const year  = data.year || '';
-            const info  =
-                `║ ▸ *Title*  : ${title}${year ? ' (' + year + ')' : ''}\n` +
-                `║ ▸ *IMDB*   : ⭐ ${data.imdb_rating || 'N/A'}/10\n` +
-                `║ ▸ *Genre*  : ${data.cats || 'N/A'}\n` +
-                `║ ▸ *Plot*   : ${(data.description || '').substring(0, 120)}…`;
-
-            // 2. Search Dailymotion — no YouTube CDN required
-            const queries = [
-                `${title} ${year} official trailer`,
-                `${title} official trailer`,
-                `${title} ${year} trailer`
-            ];
-
-            let videoBuf = null;
-            outer: for (const q of queries) {
-                let dmIds = [];
-                try { dmIds = await searchDailymotionTrailer(q); } catch { }
-                for (const dmId of dmIds.slice(0, 3)) {
-                    try {
-                        const hlsUrl = await getDailymotionHLS(dmId);
-                        videoBuf     = await ffmpegHlsToMp4(hlsUrl, 200);
-                        break outer;
-                    } catch { }
-                }
-            }
-
-            if (!videoBuf) throw new Error('Could not download trailer — no source found');
-
-            const caption = `╔═|〔  🎬 MOVIE TRAILER 〕\n║\n${info}\n║ ▸ *Quality* : 480p\n║\n╚═|〔 ${name} 〕`;
-            await sock.sendMessage(chatId, { video: videoBuf, mimetype: 'video/mp4', caption }, { quoted: msg });
-
-        } catch (e) {
-            await sock.sendMessage(chatId, {
-                text: `╔═|〔  🎬 MOVIE TRAILER 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
             }, { quoted: msg });
         }
     }
@@ -425,4 +306,4 @@ const actorCmd = {
     }
 };
 
-module.exports = [movieCmd, trailerCmd, mboxCmd, trendingCmd, hotCmd, latestCmd, dramaCmd, actorCmd];
+module.exports = [movieCmd, mboxCmd, trendingCmd, hotCmd, latestCmd, dramaCmd, actorCmd];
