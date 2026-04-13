@@ -680,12 +680,12 @@
     "totalGroups": 6
   },
   "owner_data": {
-    "OWNER_JID": "254706441840:16@s.whatsapp.net",
+    "OWNER_JID": "254706441840:17@s.whatsapp.net",
     "OWNER_NUMBER": "254706441840",
     "OWNER_CLEAN_JID": "254706441840@s.whatsapp.net",
     "OWNER_CLEAN_NUMBER": "254706441840",
     "ownerLID": null,
-    "linkedAt": "2026-04-12T18:30:53.668Z",
+    "linkedAt": "2026-04-13T00:09:36.364Z",
     "autoLinked": false,
     "previousOwnerCleared": true,
     "version": "1.1.5"
