@@ -270,34 +270,44 @@ const hymnCmd = {
 // ── 7. MEDITATE ───────────────────────────────────────────────────────────────
 const SESSIONS = [
     {
-        title   : '🌅 Morning Clarity',
-        steps   : ['Sit comfortably and close your eyes', 'Breathe in slowly for *4 counts*', 'Hold for *4 counts*', 'Breathe out for *6 counts*', 'Repeat 5 times, letting each exhale release tension'],
-        focus   : 'Set one clear intention for today. What matters most?',
-        affirm  : '_I am focused, calm, and ready for the day ahead._',
+        title    : '🌅 Morning Clarity',
+        steps    : ['Sit comfortably and close your eyes', 'Breathe in slowly for *4 counts*', 'Hold for *4 counts*', 'Breathe out for *6 counts*', 'Repeat 5 times, letting each exhale release tension'],
+        focus    : 'Set one clear intention for today. What matters most?',
+        affirm   : '_I am focused, calm, and ready for the day ahead._',
+        hymnName : 'Great Is Thy Faithfulness',
+        hymnPrompt: 'Great Is Thy Faithfulness gospel hymn morning worship gentle piano female voice choir',
     },
     {
-        title   : '🌊 Deep Calm',
-        steps   : ['Find a quiet space and sit or lie down', 'Breathe in through your nose for *5 counts*', 'Hold gently for *2 counts*', 'Exhale fully through your mouth for *7 counts*', 'Feel your body soften with every breath out'],
-        focus   : 'Notice any tension in your body. Breathe directly into it and let it melt.',
-        affirm  : '_I release what I cannot control. Peace flows through me._',
+        title    : '🌊 Deep Calm',
+        steps    : ['Find a quiet space and sit or lie down', 'Breathe in through your nose for *5 counts*', 'Hold gently for *2 counts*', 'Exhale fully through your mouth for *7 counts*', 'Feel your body soften with every breath out'],
+        focus    : 'Notice any tension in your body. Breathe directly into it and let it melt.',
+        affirm   : '_I release what I cannot control. Peace flows through me._',
+        hymnName : 'Abide With Me',
+        hymnPrompt: 'Abide With Me peaceful evening hymnal gentle piano solo calm soothing meditation',
     },
     {
-        title   : '🔥 Inner Strength',
-        steps   : ['Sit tall with your spine straight', 'Take a powerful breath in for *3 counts*', 'Hold at the top for *3 counts*', 'Exhale with purpose for *3 counts*', 'Repeat 7 times, feeling energy build with each cycle'],
-        focus   : 'Visualize a challenge you are facing. See yourself moving through it with ease.',
-        affirm  : '_I have the strength to overcome anything placed before me._',
+        title    : '🔥 Inner Strength',
+        steps    : ['Sit tall with your spine straight', 'Take a powerful breath in for *3 counts*', 'Hold at the top for *3 counts*', 'Exhale with purpose for *3 counts*', 'Repeat 7 times, feeling energy build with each cycle'],
+        focus    : 'Visualize a challenge you are facing. See yourself moving through it with ease.',
+        affirm   : '_I have the strength to overcome anything placed before me._',
+        hymnName : 'A Mighty Fortress Is Our God',
+        hymnPrompt: 'A Mighty Fortress Is Our God powerful gospel choir anthem uplifting worship',
     },
     {
-        title   : '🌙 Evening Wind-Down',
-        steps   : ['Dim your environment and sit quietly', 'Breathe in gently for *4 counts*', 'Breathe out slowly for *8 counts*', 'With each exhale, let the events of the day dissolve', 'Repeat until your mind feels still'],
-        focus   : 'Reflect on one thing you are grateful for from today, no matter how small.',
-        affirm  : '_Today was enough. I did enough. I am enough._',
+        title    : '🌙 Evening Wind-Down',
+        steps    : ['Dim your environment and sit quietly', 'Breathe in gently for *4 counts*', 'Breathe out slowly for *8 counts*', 'With each exhale, let the events of the day dissolve', 'Repeat until your mind feels still'],
+        focus    : 'Reflect on one thing you are grateful for from today, no matter how small.',
+        affirm   : '_Today was enough. I did enough. I am enough._',
+        hymnName : 'Be Still My Soul',
+        hymnPrompt: 'Be Still My Soul gentle evening hymn soothing piano meditation peaceful instrumental',
     },
     {
-        title   : '🌿 Present Moment',
-        steps   : ['Stop whatever you are doing and be still', 'Take 3 deep natural breaths', 'Name 5 things you can see around you', 'Name 3 things you can physically feel', 'Return to your breath and breathe naturally for 1 minute'],
-        focus   : 'You are exactly where you need to be right now.',
-        affirm  : '_This moment is enough. I am grounded and present._',
+        title    : '🌿 Present Moment',
+        steps    : ['Stop whatever you are doing and be still', 'Take 3 deep natural breaths', 'Name 5 things you can see around you', 'Name 3 things you can physically feel', 'Return to your breath and breathe naturally for 1 minute'],
+        focus    : 'You are exactly where you need to be right now.',
+        affirm   : '_This moment is enough. I am grounded and present._',
+        hymnName : 'This Is My Father\'s World',
+        hymnPrompt: 'This Is My Father\'s World peaceful nature hymn piano guitar soft worship meditation',
     },
 ];
 
@@ -377,12 +387,60 @@ const meditatCmd = {
 
         await sock.sendMessage(chatId, { text: card }, { quoted: msg });
 
-        try {
-            const cleanAffirm = s.affirm.replace(/_/g, '').trim();
-            const ttsText = `Welcome to your ${s.title.replace(/[🌅🌊🔥🌙🌿]/g, '').trim()} session. ${s.focus} Remember this affirmation: ${cleanAffirm}`;
-            const { buf, mime } = await speakText(ttsText);
-            await sock.sendMessage(chatId, { audio: buf, mimetype: mime, ptt: false }, { quoted: msg });
-        } catch {}
+        // Notify the hymnal tune is generating (takes ~2-3 min)
+        await sock.sendMessage(chatId, {
+            text: `╔═|〔  🎵 HYMNAL TUNE 〕\n║\n║ ▸ *Hymn*   : ${s.hymnName}\n║ ▸ *Status* : ⏳ Generating... (~2-3 mins)\n║ ▸ *Style*  : Gospel · Calm · Instrumental\n║\n╚═|〔 ${name} 〕`
+        }, { quoted: msg });
+
+        // Run TTS affirmation + hymnal music generation in parallel
+        const cleanAffirm = s.affirm.replace(/_/g, '').trim();
+        const ttsText     = `Welcome to your ${s.title.replace(/[🌅🌊🔥🌙🌿]/g, '').trim()} session. ${s.focus} Remember this affirmation: ${cleanAffirm}`;
+
+        const [ttsResult, musicResult] = await Promise.allSettled([
+            speakText(ttsText, 'nova'),
+            casperGet('/api/tools/text-to-music', {
+                prompt      : s.hymnPrompt,
+                genre       : 'Gospel',
+                mood        : 'Calm',
+                vocal       : 'Female',
+            }, 210000),
+        ]);
+
+        // Send TTS affirmation audio
+        if (ttsResult.status === 'fulfilled') {
+            try {
+                const { buf, mime } = ttsResult.value;
+                await sock.sendMessage(chatId, { audio: buf, mimetype: mime, ptt: false }, { quoted: msg });
+            } catch {}
+        }
+
+        // Send hymnal music MP3
+        if (musicResult.status === 'fulfilled') {
+            try {
+                const data     = musicResult.value;
+                const audioUrl = data.audioUrl || data.audio_url || data.url;
+                if (!audioUrl) throw new Error('No audio URL');
+                const buf      = await dlBuffer(audioUrl);
+                const caption  = [
+                    `╔═|〔  🎵 HYMNAL TUNE READY 〕`,
+                    `║`,
+                    `║ ▸ *Hymn*    : ${s.hymnName}`,
+                    `║ ▸ *Session* : ${s.title}`,
+                    `║ ▸ *Genre*   : Gospel · Calm`,
+                    `║`,
+                    `║ 🙏 Let this tune guide your spirit`,
+                    `║`,
+                    `╚═|〔 ${name} 〕`,
+                ].join('\n');
+                await sock.sendMessage(chatId, {
+                    audio    : buf,
+                    mimetype : 'audio/mpeg',
+                    ptt      : false,
+                    fileName : `${s.hymnName.replace(/\s+/g, '_')}.mp3`,
+                    caption,
+                }, { quoted: msg });
+            } catch {}
+        }
     }
 };
 
