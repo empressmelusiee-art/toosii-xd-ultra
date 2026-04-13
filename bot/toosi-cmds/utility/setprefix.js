@@ -26,9 +26,25 @@ module.exports = {
                 text: `╔═|〔  SET PREFIX 〕\n║\n║ ▸ *Usage*   : ${prefix}setprefix <symbol>\n║ ▸ *Example* : ${prefix}setprefix !\n║\n╚═╝`,
             }, { quoted: msg });
         }
-        await setConfig('PREFIX', newPrefix);
-        process.env.PREFIX = newPrefix;
-        if (global.botConfig) global.botConfig.PREFIX = newPrefix;
+
+        if (typeof globalThis.updatePrefixImmediately === 'function') {
+            globalThis.updatePrefixImmediately(newPrefix);
+        } else {
+            const prefixConfig = {
+                prefix: newPrefix,
+                isPrefixless: false,
+                setAt: new Date().toISOString(),
+                timestamp: Date.now(),
+            };
+            await setConfig('prefix_config', prefixConfig);
+            await setConfig('bot_settings', { prefix: newPrefix, isPrefixless: false, prefixSetAt: new Date().toISOString() });
+            process.env.PREFIX = newPrefix;
+            if (global.botConfig) global.botConfig.PREFIX = newPrefix;
+            global.prefix = newPrefix;
+            global.CURRENT_PREFIX = newPrefix;
+            global.isPrefixless = false;
+        }
+
         await sock.sendMessage(chatId, { text: `╔═|〔  SET PREFIX 〕\n║\n║ ▸ *New Prefix* : ${newPrefix}\n║ ▸ *Status*     : ✅ Updated\n║\n╚═╝` }, { quoted: msg });
     }
 };
