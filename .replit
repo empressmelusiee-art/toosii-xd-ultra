@@ -30,3 +30,14 @@ externalPort = 80
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+PREFIX = "."
+BOT_NAME = "TOOSII-XD"
+MODE = "public"
+OWNER_NAME = "TOOSII"
+TIME_ZONE = "Africa/Nairobi"
+PORT = "3000"
+NODE_ENV = "production"

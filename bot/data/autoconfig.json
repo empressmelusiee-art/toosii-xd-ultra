@@ -1,0 +1,47 @@
+{
+  "antidelete": {
+    "enabled": false,
+    "mode": "chat"
+  },
+  "antideletestatus": {
+    "enabled": true
+  },
+  "autoviewstatus": {
+    "enabled": false
+  },
+  "autoreactstatus": {
+    "enabled": true,
+    "mode": "fixed",
+    "emoji": "❤️",
+    "emojis": [
+      "❤️",
+      "🔥",
+      "😍",
+      "👍",
+      "🎉",
+      "💯",
+      "😂",
+      "🥰",
+      "🫶",
+      "✨"
+    ]
+  },
+  "autodownloadstatus": {
+    "enabled": false
+  },
+  "reactowner": {
+    "enabled": false,
+    "emoji": "❤️"
+  },
+  "reactdev": {
+    "enabled": false,
+    "emoji": "🔥"
+  },
+  "antigroupstatus": {
+    "enabled": false
+  },
+  "antistatusmention": {
+    "enabled": false
+  },
+  "antispam": {}
+}

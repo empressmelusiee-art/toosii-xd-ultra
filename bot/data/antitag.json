@@ -1,0 +1,10 @@
+{
+  "120363408070773199@g.us": {
+    "enabled": false,
+    "action": "warn",
+    "threshold": 5,
+    "exemptAdmins": true,
+    "exemptSudos": true,
+    "exempt": []
+  }
+}
