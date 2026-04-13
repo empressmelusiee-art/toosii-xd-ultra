@@ -79,6 +79,8 @@ module.exports = {
 
         const quotedMsg   = ctx2?.quotedMessage;
         const quotedId    = ctx2?.stanzaId;
+        // Debug: log raw context fields to identify the correct poster JID field
+        console.log('[SAVE-DBG] ctx2.participant=' + ctx2?.participant + ' ctx2.remoteJid=' + ctx2?.remoteJid + ' msg.remoteJid=' + msg.key.remoteJid);
         const quotedOwner = ctx2?.participant || ctx2?.remoteJid || '';
 
         if (!quotedMsg) {
