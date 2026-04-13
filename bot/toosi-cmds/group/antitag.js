@@ -121,34 +121,28 @@ async function isExempt(sock, chatId, senderJid, gcfg) {
     const realNum = await resolvePhone(sock, senderJid);
 
     if (gcfg.exemptSudos !== false && (isSudoNumber(realNum) || isSudoNumber(rawNum))) {
-        console.log(`[antitag] exempt: sudo match (rawNum=${rawNum} realNum=${realNum})`);
         return true;
     }
     if ((gcfg.exempt || []).some(e => { const n = bareNum(e); return n === realNum || n === rawNum; })) {
-        console.log(`[antitag] exempt: custom list`);
         return true;
     }
     if (gcfg.exemptAdmins !== false) {
         try {
-            const meta = await sock.groupMetadata(chatId);
-            const matched = meta.participants.find(p => {
-                const pNum = bareNum(p.id);
-                return (pNum === rawNum || pNum === realNum) &&
-                       (p.admin === 'admin' || p.admin === 'superadmin');
+            const meta      = await sock.groupMetadata(chatId);
+            const bareJid   = senderJid.replace(/:[\d]+@/, '@');
+            const rawDomain = senderJid.split('@')[1] || '';
+            const matched   = meta.participants.find(p => {
+                if (p.admin !== 'admin' && p.admin !== 'superadmin') return false;
+                const pId     = p.id || '';
+                const pBare   = pId.replace(/:[\d]+@/, '@');
+                const pNum    = bareNum(pId);
+                const pDomain = pId.split('@')[1] || '';
+                return pId === senderJid || pBare === bareJid ||
+                    (pNum === rawNum && rawNum.length >= 5 && pDomain === rawDomain) ||
+                    (realNum && pNum === realNum && realNum.length >= 5 && pDomain === 's.whatsapp.net');
             });
-            if (matched) {
-                console.log(`[antitag] exempt: admin match (p.id=${matched.id})`);
-                return true;
-            }
-            // Log participant IDs to help debug LID mismatch
-            const adminList = meta.participants
-                .filter(p => p.admin)
-                .map(p => `${bareNum(p.id)}(${p.admin})`)
-                .join(', ');
-            console.log(`[antitag] not admin — rawNum=${rawNum} realNum=${realNum} | admins=[${adminList}]`);
-        } catch (e) {
-            console.log(`[antitag] groupMetadata failed: ${e.message} — treating as NOT exempt`);
-        }
+            if (matched) return true;
+        } catch {}
     }
     return false;
 }
@@ -177,10 +171,7 @@ function setupAntiTagListener(sock) {
 
             const sender  = msg.key.participant || msg.key.remoteJid || '';
             const realNum = await resolvePhone(sock, sender);
-            console.log(`[antitag] 🎯 tag-all detected | sender=${bareNum(sender)} (phone:${realNum})`);
-
             if (await isExempt(sock, chatId, sender, gcfg)) {
-                console.log(`[antitag] ⏭️ sender exempt — skipping`);
                 continue;
             }
 

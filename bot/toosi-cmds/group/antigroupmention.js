@@ -105,10 +105,18 @@ async function isExempt(sock, chatId, senderJid, gcfg) {
 
     if (gcfg.exemptAdmins !== false) {
         try {
-            const meta = await sock.groupMetadata(chatId);
-            const hit  = meta.participants.find(p => {
-                const n = bareNum(p.id);
-                return (n === rawNum || n === realNum) && p.admin;
+            const meta      = await sock.groupMetadata(chatId);
+            const bareJid   = senderJid.replace(/:[\d]+@/, '@');
+            const rawDomain = senderJid.split('@')[1] || '';
+            const hit       = meta.participants.find(p => {
+                if (!p.admin) return false;
+                const pId     = p.id || '';
+                const pBare   = pId.replace(/:[\d]+@/, '@');
+                const pNum    = bareNum(pId);
+                const pDomain = pId.split('@')[1] || '';
+                return pId === senderJid || pBare === bareJid ||
+                    (pNum === rawNum && rawNum.length >= 5 && pDomain === rawDomain) ||
+                    (realNum && pNum === realNum && realNum.length >= 5 && pDomain === 's.whatsapp.net');
             });
             if (hit) return true;
         } catch {}

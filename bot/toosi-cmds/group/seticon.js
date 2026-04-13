@@ -7,11 +7,18 @@ module.exports = {
         const chatId = msg.key.remoteJid;
         if (!chatId.endsWith('@g.us')) return sock.sendMessage(chatId, { text: `╔═|〔  SET PP 〕\n║\n║ ▸ Group only command\n║\n╚═╝` }, { quoted: msg });
         const meta      = await sock.groupMetadata(chatId);
-        const senderJid = msg.key.participant || msg.key.remoteJid;
-        const senderNum = senderJid.split('@')[0].split(':')[0];
-        const isAdmin   = meta.participants.some(p => {
-            const pNum = (p.id || p.phoneNumber || '').split('@')[0].split(':')[0];
-            return pNum === senderNum && (p.admin === 'admin' || p.admin === 'superadmin');
+        const senderJid    = msg.key.participant || msg.key.remoteJid;
+        const senderBare   = senderJid.replace(/:[\d]+@/, '@');
+        const senderNum    = senderJid.split('@')[0].split(':')[0];
+        const senderDomain = senderJid.split('@')[1] || '';
+        const isAdmin      = meta.participants.some(p => {
+            if (p.admin !== 'admin' && p.admin !== 'superadmin') return false;
+            const pId     = p.id || '';
+            const pBare   = pId.replace(/:[\d]+@/, '@');
+            const pNum    = pId.split('@')[0].split(':')[0];
+            const pDomain = pId.split('@')[1] || '';
+            return pId === senderJid || pBare === senderBare ||
+                (pNum === senderNum && senderNum.length >= 5 && pDomain === senderDomain);
         });
         const isOwner   = ctx?.isOwner?.() || ctx?.isSudoUser || false;
         if (!isAdmin && !isOwner) return sock.sendMessage(chatId, { text: `╔═|〔  SET PP 〕\n║\n║ ▸ *Status* : ❌ Admins only\n║\n╚═╝` }, { quoted: msg });

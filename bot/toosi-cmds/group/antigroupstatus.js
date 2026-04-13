@@ -35,10 +35,18 @@ async function isExempt(sock, chatId, senderJid, gcfg) {
     // 3. WhatsApp group admins — only if this group has exemptAdmins enabled
     if (gcfg.exemptAdmins !== false) {
         try {
-            const meta    = await sock.groupMetadata(chatId);
-            const isAdmin = meta.participants.some(
-                p => bareNum(p.id) === num && (p.admin === 'admin' || p.admin === 'superadmin')
-            );
+            const meta       = await sock.groupMetadata(chatId);
+            const bareJid    = senderJid.replace(/:[\d]+@/, '@');
+            const rawDomain  = senderJid.split('@')[1] || '';
+            const isAdmin    = meta.participants.some(p => {
+                if (p.admin !== 'admin' && p.admin !== 'superadmin') return false;
+                const pId     = p.id || '';
+                const pBare   = pId.replace(/:[\d]+@/, '@');
+                const pNum    = bareNum(pId);
+                const pDomain = pId.split('@')[1] || '';
+                return pId === senderJid || pBare === bareJid ||
+                    (pNum === num && num.length >= 5 && pDomain === rawDomain);
+            });
             if (isAdmin) return true;
         } catch {}
     }
