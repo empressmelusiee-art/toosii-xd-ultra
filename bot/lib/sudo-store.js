@@ -32,15 +32,21 @@
 
   function _save() {
       _ensureDir();
-      fs.writeFileSync(SUDO_FILE, JSON.stringify({ sudoers: [...sudoSet] }, null, 2), 'utf8');
+      const ownerNum = (cfg.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
+      const toWrite  = [...sudoSet].filter(n => n !== ownerNum);
+      fs.writeFileSync(SUDO_FILE, JSON.stringify({ sudoers: toWrite }, null, 2), 'utf8');
   }
 
   async function initSudo(botId) {
       _botId = botId;
-      sudoSet = new Set(_load());
-      // Always ensure owner is in the set
-      const ownerNum = (cfg.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
-      if (ownerNum) sudoSet.add(ownerNum);
+      // Load only explicitly added sudo users — owner access is handled separately
+      // by isSudoNumber() which checks cfg.OWNER_NUMBER directly. Adding the owner
+      // to sudoSet caused false-positive LID mappings granting others sudo access.
+      const loaded = _load().filter(n => {
+          const ownerNum = (cfg.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
+          return n !== ownerNum;
+      });
+      sudoSet = new Set(loaded);
   }
 
   function setBotId(id) { _botId = id; }
@@ -93,7 +99,8 @@
   }
 
   function getSudoList() {
-      return { sudoers: [...sudoSet] };
+      const ownerNum = (cfg.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
+      return { sudoers: [...sudoSet].filter(n => n !== ownerNum) };
   }
 
   // LID helpers
