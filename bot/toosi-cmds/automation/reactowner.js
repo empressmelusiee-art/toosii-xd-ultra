@@ -60,7 +60,7 @@ module.exports = {
 
         if (!ctx?.isOwnerUser && !ctx?.isSudoUser) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -69,7 +69,7 @@ module.exports = {
 
         if (!action || action === 'status') {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *State* : ${cfg.enabled ? '✅ ON' : '❌ OFF'}\n║ ▸ *Emoji* : ${cfg.emoji || '❤️'}\n║ ▸ *Usage* : ${prefix}reactowner on/off/emoji <emoji>\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *State* : ${cfg.enabled ? '✅ ON' : '❌ OFF'}\n║ ▸ *Emoji* : ${cfg.emoji || '❤️'}\n║ ▸ *Usage* : ${prefix}reactowner on/off/emoji <emoji>\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -77,17 +77,17 @@ module.exports = {
             const data = get('reactowner');
             data.emoji = args[1];
             set('reactowner', data);
-            return sock.sendMessage(chatId, { text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *Emoji* : ${args[1]} saved\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+            return sock.sendMessage(chatId, { text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *Emoji* : ${args[1]} saved\n║\n╚═╝` }, { quoted: msg });
         }
 
-        if (action === 'on')  { const d = get('reactowner'); d.enabled = true;  set('reactowner', d); return sock.sendMessage(chatId, { text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *State* : ✅ Enabled\n║\n╚═|〔 ${name} 〕` }, { quoted: msg }); }
-        if (action === 'off') { const d = get('reactowner'); d.enabled = false; set('reactowner', d); return sock.sendMessage(chatId, { text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *State* : ❌ Disabled\n║\n╚═|〔 ${name} 〕` }, { quoted: msg }); }
+        if (action === 'on')  { const d = get('reactowner'); d.enabled = true;  set('reactowner', d); return sock.sendMessage(chatId, { text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *State* : ✅ Enabled\n║\n╚═╝` }, { quoted: msg }); }
+        if (action === 'off') { const d = get('reactowner'); d.enabled = false; set('reactowner', d); return sock.sendMessage(chatId, { text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *State* : ❌ Disabled\n║\n╚═╝` }, { quoted: msg }); }
 
         // unknown arg → ignore silently; only toggle when no arg given
         if (action) return;
         const now = toggle('reactowner');
         return sock.sendMessage(chatId, {
-            text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *State* : ${now ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═|〔 ${name} 〕`
+            text: `╔═|〔  REACT OWNER 〕\n║\n║ ▸ *State* : ${now ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═╝`
         }, { quoted: msg });
     }
 };
