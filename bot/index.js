@@ -742,7 +742,7 @@ const { initStatusReplyListener } = require('./lib/statusReplyListener.js');
 const { isChatbotActiveForChat, handleChatbotMessage } = require('./toosi-cmds/ai/chatbot.js');
 
 // ====== ENVIRONMENT SETUP ======
-dotenv.config({ path: './.env' });
+dotenv.config({ path: path.join(__dirname, '../.env') }); // root .env
 
 // ====== CONFIGURATION ======
 const SESSION_DIR = './session';
@@ -761,7 +761,7 @@ function getCurrentBotName() { return _getBotName(); }
 const VERSION = '1.2.0';
 global.VERSION = VERSION;
 const _rawEnvPrefix = process.env.BOT_PREFIX || process.env.PREFIX || '';
-const DEFAULT_PREFIX = (_rawEnvPrefix && _rawEnvPrefix.length <= 5) ? _rawEnvPrefix : '.';
+const DEFAULT_PREFIX = (_rawEnvPrefix && _rawEnvPrefix.length <= 5) ? _rawEnvPrefix : ',';
 const OWNER_FILE = './owner.json';
 const PREFIX_CONFIG_FILE = './prefix_config.json';
 const BOT_SETTINGS_FILE = './bot_settings.json';
@@ -831,7 +831,7 @@ globalThis.reloadConfigCaches = reloadConfigCaches;
 async function reloadConfigCaches() {
     try {
         _cache_owner_data = await _loadConfigCache('owner_data', {});
-        _cache_prefix_config = await _loadConfigCache('prefix_config', { prefix: '.' });
+        _cache_prefix_config = await _loadConfigCache('prefix_config', { prefix: DEFAULT_PREFIX });
         _cache_bot_settings = await _loadConfigCache('bot_settings', {});
         _cache_bot_mode = await _loadConfigCache('bot_mode', null);
         if (!_cache_bot_mode || !_cache_bot_mode.mode) {
