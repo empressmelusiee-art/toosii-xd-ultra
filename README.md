@@ -203,17 +203,17 @@ node index.js
 
 ### 📬 Contact & Support
 
-<img src="https://img.shields.io/badge/Telegram-TOOSII%20TECH-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" href="https://t.me/toosiitech"/>
-
-[![Telegram](https://img.shields.io/badge/Join%20us%20on%20Telegram-%40toosiitech-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/toosiitech)
+[![Telegram](https://img.shields.io/badge/Telegram-%40toosiitech-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/toosiitech)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-+254746677793-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/254746677793)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-+254748340864-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/254748340864)
 
 ```
   ┌─────────────────────────────────────────────────────────────┐
   │                                                             │
-  │   📱  Telegram Channel  →  t.me/toosiitech                 │
+  │   📱  Telegram   →  t.me/toosiitech                        │
   │                                                             │
-  │   💬  WhatsApp Support  →  +254 746 677 793                │
-  │   💬  WhatsApp Support  →  +254 748 340 864                │
+  │   💬  WhatsApp   →  wa.me/254746677793                     │
+  │   💬  WhatsApp   →  wa.me/254748340864                     │
   │                                                             │
   │   🌐  Session Generator →                                  │
   │        toosiitechdevelopertools.zone.id/session             │
