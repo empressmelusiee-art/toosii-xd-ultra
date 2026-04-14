@@ -32,7 +32,7 @@ module.exports = [
 
             if (!query) {
                 return sock.sendMessage(chatId, {
-                    text: `╔═|〔  WIKIPEDIA 📚 〕\n║\n║ ▸ *Usage*   : ${prefix}wiki <topic>\n║ ▸ *Example* : ${prefix}wiki Nairobi\n║ ▸ *Example* : ${prefix}wiki artificial intelligence\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  WIKIPEDIA 📚 〕\n║\n║ ▸ *Usage*   : ${prefix}wiki <topic>\n║ ▸ *Example* : ${prefix}wiki Nairobi\n║ ▸ *Example* : ${prefix}wiki artificial intelligence\n║\n╚═╝`
                 }, { quoted: msg });
             }
 
@@ -57,14 +57,14 @@ module.exports = [
                     `║`,
                     `║ 🔗 https://en.wikipedia.org/wiki/${encodeURIComponent(data.title.replace(/ /g, '_'))}`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].filter(Boolean).join('\n');
 
                 await sock.sendMessage(chatId, { text: lines }, { quoted: msg });
 
             } catch (e) {
                 await sock.sendMessage(chatId, {
-                    text: `╔═|〔  WIKIPEDIA 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  WIKIPEDIA 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═╝`
                 }, { quoted: msg });
             }
         }
@@ -84,7 +84,7 @@ module.exports = [
 
             if (!query) {
                 return sock.sendMessage(chatId, {
-                    text: `╔═|〔  WIKI SEARCH 〕\n║\n║ ▸ *Usage* : ${prefix}wikisearch <topic>\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  WIKI SEARCH 〕\n║\n║ ▸ *Usage* : ${prefix}wikisearch <topic>\n║\n╚═╝`
                 }, { quoted: msg });
             }
 
@@ -94,12 +94,12 @@ module.exports = [
 
                 const list = titles.map((t, i) => `║ ▸ [${i + 1}] ${t}`).join('\n');
                 await sock.sendMessage(chatId, {
-                    text: `╔═|〔  WIKI SEARCH 🔍 〕\n║\n║ 🔍 *${query}*\n║\n${list}\n║\n║ 💡 ${prefix}wiki <title> for full summary\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  WIKI SEARCH 🔍 〕\n║\n║ 🔍 *${query}*\n║\n${list}\n║\n║ 💡 ${prefix}wiki <title> for full summary\n║\n╚═╝`
                 }, { quoted: msg });
 
             } catch (e) {
                 await sock.sendMessage(chatId, {
-                    text: `╔═|〔  WIKI SEARCH 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  WIKI SEARCH 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═╝`
                 }, { quoted: msg });
             }
         }
