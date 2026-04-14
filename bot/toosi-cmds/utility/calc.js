@@ -67,7 +67,7 @@ module.exports = {
                     `║ ▸ *Example* : ${prefix}calc 2^10`,
                     `║ ▸ *Ops*     : + - * / ^ % sqrt log sin cos`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -83,12 +83,12 @@ module.exports = {
                     `║ ▸ *Expr*   : ${expr}`,
                     `║ ▸ *Result* : *${display}*`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  CALCULATOR 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║ ▸ *Hint*   : ${prefix}calc 25*4 or sqrt(144)\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  CALCULATOR 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║ ▸ *Hint*   : ${prefix}calc 25*4 or sqrt(144)\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
