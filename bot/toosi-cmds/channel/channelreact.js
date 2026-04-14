@@ -94,7 +94,7 @@ module.exports = {
 
         if (!ctx?.isOwnerUser && !ctx?.isSudoUser) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  CHANNEL REACT 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  CHANNEL REACT 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -125,7 +125,7 @@ module.exports = {
                     `║   ${prefix}cr add <newsletter-jid>`,
                     `║   ${prefix}cr remove <newsletter-jid>`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -134,7 +134,7 @@ module.exports = {
         if (sub === 'on' || sub === 'off') {
             saveCfg({ enabled: sub === 'on' });
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *State* : ${sub === 'on' ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *State* : ${sub === 'on' ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -143,12 +143,12 @@ module.exports = {
             const list = args.slice(1).filter(Boolean);
             if (!list.length) {
                 return sock.sendMessage(chatId, {
-                    text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Usage* : ${prefix}cr emojis 🔥 ❤️ 😍 👏\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Usage* : ${prefix}cr emojis 🔥 ❤️ 😍 👏\n║\n╚═╝`
                 }, { quoted: msg });
             }
             saveCfg({ emojis: list });
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Emojis set* : ${list.join(' ')}\n║ ▸ All of these burst on each post\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Emojis set* : ${list.join(' ')}\n║ ▸ All of these burst on each post\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -156,7 +156,7 @@ module.exports = {
         if (sub === 'reset') {
             saveCfg({ emojis: [...DEFAULT_EMOJIS], enabled: true, extraJids: [] });
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Reset*  : ✅ Defaults restored\n║ ▸ *Emojis* : ${DEFAULT_EMOJIS.join(' ')}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Reset*  : ✅ Defaults restored\n║ ▸ *Emojis* : ${DEFAULT_EMOJIS.join(' ')}\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -165,13 +165,13 @@ module.exports = {
             const jid = args[1]?.trim();
             if (!jid?.endsWith('@newsletter')) {
                 return sock.sendMessage(chatId, {
-                    text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Error* : JID must end with @newsletter\n║ ▸ *Usage* : ${prefix}cr add 12345@newsletter\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Error* : JID must end with @newsletter\n║ ▸ *Usage* : ${prefix}cr add 12345@newsletter\n║\n╚═╝`
                 }, { quoted: msg });
             }
             saveCfg({ extraJids: [...new Set([...cfg.extraJids, jid])] });
             channelReactManager.registerNewsletter(jid);
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Added channel* : ${jid}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Added channel* : ${jid}\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -181,7 +181,7 @@ module.exports = {
             saveCfg({ extraJids: cfg.extraJids.filter(j => j !== jid) });
             channelReactManager.unregisterNewsletter(jid);
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Removed* : ${jid || '(none)'}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  CHANNEL AUTO-REACT 〕\n║\n║ ▸ *Removed* : ${jid || '(none)'}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
