@@ -78,7 +78,7 @@
       async execute(sock, msg, args, prefix, ctx) {
           const chatId  = msg.key.remoteJid;
           const botName = getBotName();
-          const foot    = `╚═|〔 ${botName} 〕`;
+          const foot    = `╚═╝`;
 
           try { await sock.sendMessage(chatId, { react: { text: '🔄', key: msg.key } }); } catch {}
 
