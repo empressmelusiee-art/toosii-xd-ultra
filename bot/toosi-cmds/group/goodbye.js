@@ -15,7 +15,7 @@ const DEFAULT_MSG = [
     `║ 🚪 The door was right there 👉😂`,
     `║ 😢 We'll pretend we're not crying`,
     `║`,
-    `╚═|〔 {bot} 〕`,
+    `╚═╝`,
 ].join('\n');
 
 // ── data helpers ──────────────────────────────────────────────────────────────
@@ -95,12 +95,12 @@ module.exports = {
 
         if (!ctx?.isOwnerUser && !ctx?.isSudoUser && !ctx?.isGroupAdmin) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *Status* : ❌ Admins/Owner only\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *Status* : ❌ Admins/Owner only\n║\n╚═╝`
             }, { quoted: msg });
         }
         if (!chatId.endsWith('@g.us')) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *Status* : ❌ Groups only\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *Status* : ❌ Groups only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -127,7 +127,7 @@ module.exports = {
                     `║ ▸ *Placeholders* :`,
                     `║   {mention} {name} {group} {count} {bot}`,
                     `║`,
-                    `╚═|〔 ${botName} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -136,7 +136,7 @@ module.exports = {
         if (sub === 'on' || sub === 'off') {
             gcfg.enabled = sub === 'on'; save();
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *State* : ${gcfg.enabled ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *State* : ${gcfg.enabled ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -145,12 +145,12 @@ module.exports = {
             const newMsg = args.slice(1).join(' ').trim();
             if (!newMsg) {
                 return sock.sendMessage(chatId, {
-                    text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *Usage* : ${prefix}goodbye set <message>\n║ ▸ *Vars*  : {mention} {name} {group} {count} {bot}\n║\n╚═|〔 ${botName} 〕`
+                    text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *Usage* : ${prefix}goodbye set <message>\n║ ▸ *Vars*  : {mention} {name} {group} {count} {bot}\n║\n╚═╝`
                 }, { quoted: msg });
             }
             gcfg.message = newMsg; save();
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *Message* : ✅ Saved\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *Message* : ✅ Saved\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -158,14 +158,14 @@ module.exports = {
         if (sub === 'reset') {
             gcfg.message = DEFAULT_MSG; save();
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *Message* : ✅ Reset to default\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *Message* : ✅ Reset to default\n║\n╚═╝`
             }, { quoted: msg });
         }
 
         // ── show current message ──────────────────────────────────────────────
         if (sub === 'msg' || sub === 'message') {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  GOODBYE MESSAGE 〕\n║\n${gcfg.message}\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  GOODBYE MESSAGE 〕\n║\n${gcfg.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -173,7 +173,7 @@ module.exports = {
         if (sub) return;
         gcfg.enabled = !gcfg.enabled; save();
         return sock.sendMessage(chatId, {
-            text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *State* : ${gcfg.enabled ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═|〔 ${botName} 〕`
+            text: `╔═|〔  GOODBYE 〕\n║\n║ ▸ *State* : ${gcfg.enabled ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═╝`
         }, { quoted: msg });
     }
 };
