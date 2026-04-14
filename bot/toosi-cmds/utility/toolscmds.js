@@ -23,7 +23,7 @@ const shortenCmd = {
         const url = args[0];
         if (!url || !/^https?:\/\//i.test(url)) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  SHORTENER 〕\n║\n║ ▸ *Usage*   : ${prefix}shorten <url>\n║ ▸ *Example* : ${prefix}shorten https://google.com\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  SHORTENER 〕\n║\n║ ▸ *Usage*   : ${prefix}shorten <url>\n║ ▸ *Example* : ${prefix}shorten https://google.com\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -34,11 +34,11 @@ const shortenCmd = {
             if (!result?.shortened) throw new Error('No shortened URL returned');
 
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  SHORTENER 〕\n║\n║ ▸ *Provider* : ${provider.toUpperCase()}\n║ ▸ *Original* : ${url.slice(0, 60)}${url.length > 60 ? '…' : ''}\n║ ▸ *Short*    : ${result.shortened}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  SHORTENER 〕\n║\n║ ▸ *Provider* : ${provider.toUpperCase()}\n║ ▸ *Original* : ${url.slice(0, 60)}${url.length > 60 ? '…' : ''}\n║ ▸ *Short*    : ${result.shortened}\n║\n╚═╝`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  SHORTENER 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  SHORTENER 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
@@ -61,7 +61,7 @@ const fancyCmd = {
 
         if (!text) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  FANCY TEXT 〕\n║\n║ ▸ *Usage*   : ${prefix}fancy <text>\n║ ▸ *Example* : ${prefix}fancy toosii xd\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  FANCY TEXT 〕\n║\n║ ▸ *Usage*   : ${prefix}fancy <text>\n║ ▸ *Example* : ${prefix}fancy toosii xd\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -71,11 +71,11 @@ const fancyCmd = {
             if (!result) throw new Error('No result returned');
 
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  FANCY TEXT 〕\n║\n║ ▸ *Input*  : ${text}\n║ ▸ *Styled* : ${result}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  FANCY TEXT 〕\n║\n║ ▸ *Input*  : ${text}\n║ ▸ *Styled* : ${result}\n║\n╚═╝`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  FANCY TEXT 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  FANCY TEXT 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
@@ -95,7 +95,7 @@ const onwaCmd = {
         const raw = args[0]?.replace(/[^0-9]/g, '');
         if (!raw || raw.length < 7) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WA CHECK 〕\n║\n║ ▸ *Usage*   : ${prefix}onwa <number>\n║ ▸ *Example* : ${prefix}onwa 254712345678\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  WA CHECK 〕\n║\n║ ▸ *Usage*   : ${prefix}onwa <number>\n║ ▸ *Example* : ${prefix}onwa 254712345678\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -122,12 +122,12 @@ const onwaCmd = {
 
         if (on === null) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WA CHECK 〕\n║\n║ ▸ *Number* : +${raw}\n║ ▸ *Status* : ⚠️ Could not determine\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  WA CHECK 〕\n║\n║ ▸ *Number* : +${raw}\n║ ▸ *Status* : ⚠️ Could not determine\n║\n╚═╝`
             }, { quoted: msg });
         }
 
         await sock.sendMessage(chatId, {
-            text: `╔═|〔  WA CHECK 〕\n║\n║ ▸ *Number* : +${raw}\n║ ▸ *Status* : ${on ? '✅ On WhatsApp' : '❌ Not on WhatsApp'}\n║ ▸ *Method* : ${method}\n║\n╚═|〔 ${name} 〕`
+            text: `╔═|〔  WA CHECK 〕\n║\n║ ▸ *Number* : +${raw}\n║ ▸ *Status* : ${on ? '✅ On WhatsApp' : '❌ Not on WhatsApp'}\n║ ▸ *Method* : ${method}\n║\n╚═╝`
         }, { quoted: msg });
     }
 };
@@ -146,7 +146,7 @@ const asciiCmd = {
         const q = args.join(' ').trim();
         if (!q) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  ASCII ART 〕\n║\n║ ▸ *Usage*   : ${prefix}ascii <keyword>\n║ ▸ *Example* : ${prefix}ascii dragon\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  ASCII ART 〕\n║\n║ ▸ *Usage*   : ${prefix}ascii <keyword>\n║ ▸ *Example* : ${prefix}ascii dragon\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -159,11 +159,11 @@ const asciiCmd = {
             const boxed = String(pick).split('\n').map(l => `║ ${l}`).join('\n');
 
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  ASCII ART — ${q.toUpperCase()} 〕\n║\n${boxed}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  ASCII ART — ${q.toUpperCase()} 〕\n║\n${boxed}\n║\n╚═╝`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  ASCII ART 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  ASCII ART 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
@@ -185,7 +185,7 @@ const walinkCmd = {
 
         if (!raw || raw.length < 7) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WA LINK 〕\n║\n║ ▸ *Usage*   : ${prefix}walink <number> [message]\n║ ▸ *Example* : ${prefix}walink 254712345678 Hi there\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  WA LINK 〕\n║\n║ ▸ *Usage*   : ${prefix}walink <number> [message]\n║ ▸ *Example* : ${prefix}walink 254712345678 Hi there\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -195,11 +195,11 @@ const walinkCmd = {
             if (!link) throw new Error('No link returned');
 
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  WA LINK 〕\n║\n║ ▸ *Number*  : +${raw}\n║ ▸ *Message* : ${text}\n║ ▸ *Link*    : ${link}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  WA LINK 〕\n║\n║ ▸ *Number*  : +${raw}\n║ ▸ *Message* : ${text}\n║ ▸ *Link*    : ${link}\n║\n╚═╝`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  WA LINK 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  WA LINK 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
@@ -219,7 +219,7 @@ const ipCmd = {
         const q = args[0]?.trim();
         if (!q) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  IP LOOKUP 〕\n║\n║ ▸ *Usage*   : ${prefix}ip <address>\n║ ▸ *Example* : ${prefix}ip 8.8.8.8\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  IP LOOKUP 〕\n║\n║ ▸ *Usage*   : ${prefix}ip <address>\n║ ▸ *Example* : ${prefix}ip 8.8.8.8\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -240,13 +240,13 @@ const ipCmd = {
                 r.timezone   ? `║ ▸ *Timezone* : ${r.timezone}`   : null,
                 r.loc        ? `║ ▸ *Coords*   : ${r.loc}`        : null,
                 `║`,
-                `╚═|〔 ${name} 〕`,
+                `╚═╝`,
             ].filter(Boolean).join('\n');
 
             await sock.sendMessage(chatId, { text: lines }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  IP LOOKUP 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  IP LOOKUP 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
@@ -269,7 +269,7 @@ const encryptCmd = {
 
         if (!code) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  JS ENCRYPT 〕\n║\n║ ▸ *Usage*   : ${prefix}encrypt <js code>\n║            OR reply JS code with\n║            ${prefix}encrypt\n║ ▸ *Example* : ${prefix}encrypt console.log('hello')\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  JS ENCRYPT 〕\n║\n║ ▸ *Usage*   : ${prefix}encrypt <js code>\n║            OR reply JS code with\n║            ${prefix}encrypt\n║ ▸ *Example* : ${prefix}encrypt console.log('hello')\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -282,11 +282,11 @@ const encryptCmd = {
             const outStr = typeof out === 'string' ? out : JSON.stringify(out);
 
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  JS ENCRYPT 〕\n║\n║ ▸ *Method* : Preemptive\n║ ▸ *Input*  : ${code.slice(0, 50)}${code.length > 50 ? '…' : ''}\n║\n${outStr.slice(0, 3000)}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  JS ENCRYPT 〕\n║\n║ ▸ *Method* : Preemptive\n║ ▸ *Input*  : ${code.slice(0, 50)}${code.length > 50 ? '…' : ''}\n║\n${outStr.slice(0, 3000)}\n║\n╚═╝`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  JS ENCRYPT 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  JS ENCRYPT 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
