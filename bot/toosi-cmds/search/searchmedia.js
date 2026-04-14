@@ -15,7 +15,7 @@ const imgCmd = {
         const name   = getBotName();
         const query  = args.join(' ').trim();
         if (!query) return sock.sendMessage(chatId, {
-            text: `╔═|〔  🖼️ IMAGE SEARCH 〕\n║\n║ ▸ *Usage* : ${prefix}img <query>\n║ ▸ *Example* : ${prefix}img sunset ocean\n║\n╚═|〔 ${name} 〕`
+            text: `╔═|〔  🖼️ IMAGE SEARCH 〕\n║\n║ ▸ *Usage* : ${prefix}img <query>\n║ ▸ *Example* : ${prefix}img sunset ocean\n║\n╚═╝`
         }, { quoted: msg });
 
         try {
@@ -36,11 +36,11 @@ const imgCmd = {
             await sock.sendMessage(chatId, {
                 image: buf,
                 mimetype: 'image/jpeg',
-                caption: `╔═|〔  🖼️ IMAGE SEARCH 〕\n║\n║ ▸ *Query* : ${query}\n║ ▸ *Via*   : LoremFlickr\n║\n╚═|〔 ${name} 〕`
+                caption: `╔═|〔  🖼️ IMAGE SEARCH 〕\n║\n║ ▸ *Query* : ${query}\n║ ▸ *Via*   : LoremFlickr\n║\n╚═╝`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  🖼️ IMAGE SEARCH 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  🖼️ IMAGE SEARCH 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
