@@ -14,7 +14,7 @@ module.exports = {
 
         if (!query) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  NPM SEARCH 〕\n║\n║ ▸ *Usage* : ${prefix}npm <package-name>\n║ ▸ *Example* : ${prefix}npm express\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  NPM SEARCH 〕\n║\n║ ▸ *Usage* : ${prefix}npm <package-name>\n║ ▸ *Example* : ${prefix}npm express\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -40,13 +40,13 @@ module.exports = {
                 `║ ▸ *Published*   : ${publishDate}\n` +
                 `║ ▸ *Versions*    : ${totalVersions} available\n` +
                 (tarball ? `║ ▸ *Tarball*     : ${tarball}\n` : '') +
-                `║\n╚═|〔 ${name} 〕`;
+                `║\n╚═╝`;
 
             await sock.sendMessage(chatId, { text: banner }, { quoted: msg });
 
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  NPM SEARCH 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  NPM SEARCH 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
