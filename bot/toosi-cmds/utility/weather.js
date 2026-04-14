@@ -17,7 +17,7 @@ module.exports = {
         const city = args.join(' ').trim();
         if (!city) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WEATHER 〕\n║\n║ ▸ *Usage* : ${prefix}weather <city>\n║ ▸ *Example*: ${prefix}weather Nairobi\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  WEATHER 〕\n║\n║ ▸ *Usage* : ${prefix}weather <city>\n║ ▸ *Example*: ${prefix}weather Nairobi\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -49,11 +49,11 @@ module.exports = {
             }[desc] || '🌡️';
 
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  WEATHER 〕\n║\n║ ▸ *City*    : ${loc}, ${coun}\n║ ▸ *Temp*    : ${tempC}°C / ${tempF}°F\n║ ▸ *Feels*   : ${feels}°C\n║ ▸ *Sky*     : ${weatherEmoji} ${desc}\n║ ▸ *Humidity*: ${humid}%\n║ ▸ *Wind*    : ${wind} km/h\n║ ▸ *UV Index*: ${uv}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  WEATHER 〕\n║\n║ ▸ *City*    : ${loc}, ${coun}\n║ ▸ *Temp*    : ${tempC}°C / ${tempF}°F\n║ ▸ *Feels*   : ${feels}°C\n║ ▸ *Sky*     : ${weatherEmoji} ${desc}\n║ ▸ *Humidity*: ${humid}%\n║ ▸ *Wind*    : ${wind} km/h\n║ ▸ *UV Index*: ${uv}\n║\n╚═╝`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  WEATHER 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  WEATHER 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
