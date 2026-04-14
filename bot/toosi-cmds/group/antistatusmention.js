@@ -62,7 +62,7 @@ async function _doAction(sock, msg, chatId, senderJid, display, action, botName)
                 `║ ▸ *Action* : ${deleted ? '🗑️ Message deleted' : '❌ Delete failed (bot not admin?)'}`,
                 `║ ▸ *Reason* : No status mentions allowed`,
                 `║`,
-                `╚═|〔 ${botName} 〕`,
+                `╚═╝`,
             ].join('\n')
         });
         return;
@@ -92,7 +92,7 @@ async function _doAction(sock, msg, chatId, senderJid, display, action, botName)
                 `║ ▸ *Warns*  : ${Math.min(count, WARN_MAX)}/${WARN_MAX}`,
                 `║ ▸ *Reason* : Status mention in group` + extra,
                 `║`,
-                `╚═|〔 ${botName} 〕`,
+                `╚═╝`,
             ].join('\n')
         });
         return;
@@ -112,7 +112,7 @@ async function _doAction(sock, msg, chatId, senderJid, display, action, botName)
                 `║ ▸ *Action* : ${kicked ? '🚫 Kicked' : '❌ Kick failed (bot not admin?)'}`,
                 `║ ▸ *Reason* : Status mention in group`,
                 `║`,
-                `╚═|〔 ${botName} 〕`,
+                `╚═╝`,
             ].join('\n')
         });
         return;
@@ -157,12 +157,12 @@ module.exports = {
 
         if (!ctx?.isOwnerUser && !ctx?.isSudoUser && !ctx?.isGroupAdmin) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  ANTI STATUS MENTION 〕\n║\n║ ▸ *Status* : ❌ Admins/Owner only\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  ANTI STATUS MENTION 〕\n║\n║ ▸ *Status* : ❌ Admins/Owner only\n║\n╚═╝`
             }, { quoted: msg });
         }
         if (!chatId.endsWith('@g.us')) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  ANTI STATUS MENTION 〕\n║\n║ ▸ *Status* : ❌ Groups only\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  ANTI STATUS MENTION 〕\n║\n║ ▸ *Status* : ❌ Groups only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -187,7 +187,7 @@ module.exports = {
                     `║   ${prefix}asm warn`,
                     `║   ${prefix}asm kick`,
                     `║`,
-                    `╚═|〔 ${botName} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -204,7 +204,7 @@ module.exports = {
                     `║ ▸ *State*  : ${gcfg.enabled ? '✅ Enabled' : '❌ Disabled'}`,
                     `║ ▸ *Action* : ${actionLabel(gcfg.action || 'delete')}`,
                     `║`,
-                    `╚═|〔 ${botName} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -221,7 +221,7 @@ module.exports = {
                     `║ ▸ *State*  : ${gcfg.enabled ? '✅ ON' : '❌ OFF'}`,
                     `║ ▸ *Action* : ${actionLabel(gcfg.action)} ✅ Set`,
                     `║`,
-                    `╚═|〔 ${botName} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
