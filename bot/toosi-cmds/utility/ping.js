@@ -14,7 +14,7 @@ module.exports = {
         const bar   = speed < 300 ? '🟢 Fast' : speed < 700 ? '🟡 Medium' : '🔴 Slow';
 
         await sock.sendMessage(chatId, {
-            text: `╔═|〔  PONG 〕\n║\n║ ▸ *Speed*    : ${speed}ms\n║ ▸ *Rating*   : ${bar}\n║ ▸ *Status*   : Online ✅\n║\n╚═|〔 ${name}  〕`,
+            text: `╔═|〔  PONG 〕\n║\n║ ▸ *Speed*    : ${speed}ms\n║ ▸ *Rating*   : ${bar}\n║ ▸ *Status*   : Online ✅\n║\n╚═╝`,
         }, { quoted: msg });
     }
 };
