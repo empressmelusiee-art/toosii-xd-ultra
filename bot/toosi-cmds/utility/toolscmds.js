@@ -156,9 +156,10 @@ const asciiCmd = {
             if (!arts?.length) throw new Error('No art found');
 
             const pick = arts[Math.floor(Math.random() * Math.min(arts.length, 10))];
+            const boxed = String(pick).split('\n').map(l => `║ ${l}`).join('\n');
 
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  ASCII ART — ${q.toUpperCase()} 〕\n║\n${pick}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  ASCII ART — ${q.toUpperCase()} 〕\n║\n${boxed}\n║\n╚═|〔 ${name} 〕`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
