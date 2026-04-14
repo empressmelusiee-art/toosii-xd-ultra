@@ -81,7 +81,7 @@ module.exports = [
                         `║`,
                         `║ ▸ *Multi*   : ${prefix}cryptotop — top 10 by market cap`,
                         `║`,
-                        `╚═|〔 ${name} 〕`,
+                        `╚═╝`,
                     ].join('\n')
                 }, { quoted: msg });
             }
@@ -114,14 +114,14 @@ module.exports = [
                     `║`,
                     `║ ⏱️ Live via CoinGecko`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n');
 
                 await sock.sendMessage(chatId, { text: lines }, { quoted: msg });
 
             } catch (e) {
                 await sock.sendMessage(chatId, {
-                    text: `╔═|〔  CRYPTO 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  CRYPTO 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═╝`
                 }, { quoted: msg });
             }
         }
@@ -151,12 +151,12 @@ module.exports = [
                 }).join('\n║\n');
 
                 await sock.sendMessage(chatId, {
-                    text: `╔═|〔  TOP 10 CRYPTO 📊 〕\n║\n${list}\n║\n║ 💡 ${prefix}crypto <coin> for details\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  TOP 10 CRYPTO 📊 〕\n║\n${list}\n║\n║ 💡 ${prefix}crypto <coin> for details\n║\n╚═╝`
                 }, { quoted: msg });
 
             } catch (e) {
                 await sock.sendMessage(chatId, {
-                    text: `╔═|〔  CRYPTO TOP 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  CRYPTO TOP 〕\n║\n║ ▸ *Status* : ❌ ${e.message}\n║\n╚═╝`
                 }, { quoted: msg });
             }
         }
