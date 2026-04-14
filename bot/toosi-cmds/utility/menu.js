@@ -128,7 +128,8 @@ module.exports = {
         lines.push(`╔═| ●-¤○《  ${name}  》○¤-●`);
         lines.push(`║`);
         lines.push(`║  ▸ ■  *Prefix*   :  ${prefix || 'none'}`);
-        lines.push(`║  ▸ ■  *Owner*    :  ${cfg.OWNER_NUMBER || 'Unknown'}`);
+        const _menuOwner = global.OWNER_NUMBER || global.OWNER_CLEAN_NUMBER || cfg.OWNER_NUMBER || '';
+        lines.push(`║  ▸ ■  *Owner*    :  ${_menuOwner ? '+' + _menuOwner.replace(/[^0-9]/g,'') : 'Unknown'}`);
         lines.push(`║  ▸ ■  *Mode*     :  ${mode}`);
         lines.push(`║  ▸ ■  *Version*  :  v${version}`);
         lines.push(`║  ▸ ■  *Platform* :  ${detectPlatform()}`);
