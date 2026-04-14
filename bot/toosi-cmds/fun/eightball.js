@@ -52,7 +52,7 @@ module.exports = {
 
         if (!question) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  MAGIC 8-BALL 🎱 〕\n║\n║ ▸ *Usage* : ${prefix}8ball <your question>\n║ ▸ *Example* : ${prefix}8ball Will I be rich?\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  MAGIC 8-BALL 🎱 〕\n║\n║ ▸ *Usage* : ${prefix}8ball <your question>\n║ ▸ *Example* : ${prefix}8ball Will I be rich?\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -67,7 +67,7 @@ module.exports = {
                 `║`,
                 `║ ▸ *Answer*   : ${answer}${extra}`,
                 `║`,
-                `╚═|〔 ${name} 〕`,
+                `╚═╝`,
             ].join('\n')
         }, { quoted: msg });
     }
