@@ -54,10 +54,10 @@ module.exports = {
         const name   = getBotName();
 
         if (!ctx?.isOwnerUser && !ctx?.isSudoUser) {
-            return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+            return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═╝` }, { quoted: msg });
         }
         if (!chatId.endsWith('@g.us')) {
-            return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Status* : ❌ Groups only\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+            return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Status* : ❌ Groups only\n║\n╚═╝` }, { quoted: msg });
         }
 
         const action = args[0]?.toLowerCase();
@@ -66,31 +66,31 @@ module.exports = {
 
         if (!action || action === 'status') {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *State*  : ${gcfg.enabled ? '✅ ON' : '❌ OFF'}\n║ ▸ *Action* : ${gcfg.action}\n║ ▸ *Limit*  : ${gcfg.limit} msgs / ${gcfg.window/1000}s\n║ ▸ *Usage*  : ${prefix}antispam on/off/action/limit\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *State*  : ${gcfg.enabled ? '✅ ON' : '❌ OFF'}\n║ ▸ *Action* : ${gcfg.action}\n║ ▸ *Limit*  : ${gcfg.limit} msgs / ${gcfg.window/1000}s\n║ ▸ *Usage*  : ${prefix}antispam on/off/action/limit\n║\n╚═╝`
             }, { quoted: msg });
         }
 
-        if (action === 'on')  { gcfg.enabled = true;  cfg[chatId] = gcfg; saveCfg(cfg); return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *State* : ✅ Enabled\n║\n╚═|〔 ${name} 〕` }, { quoted: msg }); }
-        if (action === 'off') { gcfg.enabled = false; cfg[chatId] = gcfg; saveCfg(cfg); return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *State* : ❌ Disabled\n║\n╚═|〔 ${name} 〕` }, { quoted: msg }); }
+        if (action === 'on')  { gcfg.enabled = true;  cfg[chatId] = gcfg; saveCfg(cfg); return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *State* : ✅ Enabled\n║\n╚═╝` }, { quoted: msg }); }
+        if (action === 'off') { gcfg.enabled = false; cfg[chatId] = gcfg; saveCfg(cfg); return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *State* : ❌ Disabled\n║\n╚═╝` }, { quoted: msg }); }
 
         if (action === 'action' && args[1]) {
             const valid = ['warn', 'kick', 'delete'];
-            if (!valid.includes(args[1])) return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Error* : Use warn / kick / delete\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+            if (!valid.includes(args[1])) return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Error* : Use warn / kick / delete\n║\n╚═╝` }, { quoted: msg });
             gcfg.action = args[1]; cfg[chatId] = gcfg; saveCfg(cfg);
-            return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Action* : ${args[1]} saved\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+            return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Action* : ${args[1]} saved\n║\n╚═╝` }, { quoted: msg });
         }
 
         if (action === 'limit' && args[1]) {
             const n = parseInt(args[1]);
-            if (!n || n < 2) return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Error* : Minimum is 2\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+            if (!n || n < 2) return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Error* : Minimum is 2\n║\n╚═╝` }, { quoted: msg });
             gcfg.limit = n; cfg[chatId] = gcfg; saveCfg(cfg);
-            return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Limit* : ${n} msgs saved\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+            return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *Limit* : ${n} msgs saved\n║\n╚═╝` }, { quoted: msg });
         }
 
         // unknown arg — ignore silently; only toggle when no arg given
         if (action) return;
         const now = !gcfg.enabled;
         gcfg.enabled = now; cfg[chatId] = gcfg; saveCfg(cfg);
-        return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *State* : ${now ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═|〔 ${name} 〕` }, { quoted: msg });
+        return sock.sendMessage(chatId, { text: `╔═|〔  ANTI SPAM 〕\n║\n║ ▸ *State* : ${now ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═╝` }, { quoted: msg });
     }
 };
