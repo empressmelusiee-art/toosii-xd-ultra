@@ -14,12 +14,12 @@
 
           if (!ctx.isOwner()) {
               return sock.sendMessage(chatId, {
-                  text: `╔═|〔  RESTART 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═|〔 ${name} 〕`
+                  text: `╔═|〔  RESTART 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═╝`
               }, { quoted: msg });
           }
 
           await sock.sendMessage(chatId, {
-              text: `╔═|〔  RESTART 〕\n║\n║ ▸ *Status* : ♻️ Restarting...\n║ ▸ *Note*   : Bot will be back in ~5s\n║\n╚═|〔 ${name} 〕`
+              text: `╔═|〔  RESTART 〕\n║\n║ ▸ *Status* : ♻️ Restarting...\n║ ▸ *Note*   : Bot will be back in ~5s\n║\n╚═╝`
           }, { quoted: msg });
 
           // Exit code 1 tells the launcher to restart the bot automatically
