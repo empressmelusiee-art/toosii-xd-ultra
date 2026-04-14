@@ -77,7 +77,7 @@ module.exports = {
                     `║ ▸ *Example* : ${prefix}ship Toosii + Amara`,
                     `║ ▸ *Example* : ${prefix}ship John and Jane`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -106,7 +106,7 @@ module.exports = {
                 `║ ▸ ${label}`,
                 `║ ▸ 💬 ${comment}`,
                 `║`,
-                `╚═|〔 ${name} 〕`,
+                `╚═╝`,
             ].join('\n')
         }, { quoted: msg });
     }
