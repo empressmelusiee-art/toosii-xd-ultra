@@ -7485,7 +7485,11 @@ async function handleIncomingMessage(sock, msg) {
             const _qMode = (_cache_bot_mode?.mode || BOT_MODE || 'public').toLowerCase();
             if (_qMode !== 'public' && _qMode !== 'buttons' && _qMode !== 'channel' && _qMode !== 'default') {
                 const _qOwner = jidManager.isOwner(msg);
-                const _qSudo  = jidManager.isSudo(msg);
+                let _qSudo  = jidManager.isSudo(msg);
+                // LID async fallback: sync isSudo misses group LID senders — resolve phone now
+                  if (!_qOwner && !_qSudo && senderJid.includes('@lid') && isGroup) {
+                      try { _qSudo = await jidManager.isSudoAsync(msg, sock); } catch {}
+                  }
                 if (!_qOwner && !_qSudo) {
                     // LID fallback: sender may arrive as a LID in groups — resolve to phone and recheck
                     let _qBypass = false;
