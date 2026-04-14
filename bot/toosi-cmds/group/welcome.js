@@ -20,7 +20,7 @@ const DEFAULT_MSG = [
     `║ ⚠️  This group is highly addictive`,
     `║    — you've been warned! 🫡`,
     `║`,
-    `╚═|〔 {bot} 〕`,
+    `╚═╝`,
 ].join('\n');
 
 // ── data helpers ──────────────────────────────────────────────────────────────
@@ -196,12 +196,12 @@ module.exports = {
 
         if (!ctx?.isOwnerUser && !ctx?.isSudoUser && !ctx?.isGroupAdmin) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *Status* : ❌ Admins/Owner only\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *Status* : ❌ Admins/Owner only\n║\n╚═╝`
             }, { quoted: msg });
         }
         if (!chatId.endsWith('@g.us')) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *Status* : ❌ Groups only\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *Status* : ❌ Groups only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -229,7 +229,7 @@ module.exports = {
                     `║ ▸ *Placeholders* :`,
                     `║   {mention} {name} {group} {count} {bot}`,
                     `║`,
-                    `╚═|〔 ${botName} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -238,13 +238,13 @@ module.exports = {
         if (sub === 'on' || sub === 'enable') {
             gcfg.enabled = true; save();
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *State* : ✅ Enabled\n║ ▸ *Note*  : Members will be welcomed with pic\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *State* : ✅ Enabled\n║ ▸ *Note*  : Members will be welcomed with pic\n║\n╚═╝`
             }, { quoted: msg });
         }
         if (sub === 'off' || sub === 'disable') {
             gcfg.enabled = false; save();
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *State* : ❌ Disabled\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *State* : ❌ Disabled\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -253,12 +253,12 @@ module.exports = {
             const newMsg = args.slice(1).join(' ').trim();
             if (!newMsg) {
                 return sock.sendMessage(chatId, {
-                    text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *Usage* : ${prefix}welcome set <message>\n║ ▸ *Vars*  : {mention} {name} {group} {count} {bot}\n║\n╚═|〔 ${botName} 〕`
+                    text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *Usage* : ${prefix}welcome set <message>\n║ ▸ *Vars*  : {mention} {name} {group} {count} {bot}\n║\n╚═╝`
                 }, { quoted: msg });
             }
             gcfg.message = newMsg; save();
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *Message* : ✅ Saved\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *Message* : ✅ Saved\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -266,7 +266,7 @@ module.exports = {
         if (sub === 'reset' || sub === 'default') {
             gcfg.message = DEFAULT_MSG; save();
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *Message* : ✅ Reset to default\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *Message* : ✅ Reset to default\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -280,7 +280,7 @@ module.exports = {
         // ── show current message ──────────────────────────────────────────────
         if (sub === 'msg' || sub === 'message') {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  WELCOME MESSAGE 〕\n║\n${gcfg.message}\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  WELCOME MESSAGE 〕\n║\n${gcfg.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -288,7 +288,7 @@ module.exports = {
         if (sub) return;
         gcfg.enabled = !gcfg.enabled; save();
         return sock.sendMessage(chatId, {
-            text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *State* : ${gcfg.enabled ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═|〔 ${botName} 〕`
+            text: `╔═|〔  WELCOME 〕\n║\n║ ▸ *State* : ${gcfg.enabled ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═╝`
         }, { quoted: msg });
     }
 };
