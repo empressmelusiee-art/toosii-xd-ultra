@@ -14,7 +14,7 @@ module.exports = {
 
         if (!url) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  FACEBOOK 〕\n║\n║ ▸ *Usage* : ${prefix}fb <url>\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  FACEBOOK 〕\n║\n║ ▸ *Usage* : ${prefix}fb <url>\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -40,13 +40,13 @@ module.exports = {
 
             const buf    = await dlBuffer(dlUrl);
             const sizeMB = (buf.length / 1024 / 1024).toFixed(2);
-            const banner = `╔═|〔  FACEBOOK 〕\n║\n║ ▸ *Title*  : ${title}\n║ ▸ *Quality*: ${qual}\n║ ▸ *Size*   : ${sizeMB} MB\n║\n╚═|〔 ${name} 〕`;
+            const banner = `╔═|〔  FACEBOOK 〕\n║\n║ ▸ *Title*  : ${title}\n║ ▸ *Quality*: ${qual}\n║ ▸ *Size*   : ${sizeMB} MB\n║\n╚═╝`;
 
             await sock.sendMessage(chatId, { video: buf, caption: banner }, { quoted: msg });
 
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  FACEBOOK 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  FACEBOOK 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     },
