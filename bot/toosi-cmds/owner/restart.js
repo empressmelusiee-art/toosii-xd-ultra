@@ -1,7 +1,6 @@
 'use strict';
 
   const { getBotName } = require('../../lib/botname');
-  const { spawn } = require('child_process');
 
   module.exports = {
       name: 'restart',
@@ -20,21 +19,11 @@
           }
 
           await sock.sendMessage(chatId, {
-              text: `╔═|〔  RESTART 〕\n║\n║ ▸ *Status* : ♻️ Restarting...\n║ ▸ *Note*   : Bot will be back in ~10s\n║\n╚═|〔 ${name} 〕`
+              text: `╔═|〔  RESTART 〕\n║\n║ ▸ *Status* : ♻️ Restarting...\n║ ▸ *Note*   : Bot will be back in ~5s\n║\n╚═|〔 ${name} 〕`
           }, { quoted: msg });
 
-          // Spawn a brand-new process then let this one exit cleanly
-          // Works on bot-hosting.net (Pterodactyl) without needing panel interaction
-          setTimeout(() => {
-              const child = spawn(process.execPath, process.argv.slice(1), {
-                  detached: true,
-                  stdio: 'inherit',
-                  env: process.env,
-                  cwd: process.cwd()
-              });
-              child.unref();
-              setTimeout(() => process.exit(0), 1000);
-          }, 1500);
+          // Exit code 1 tells the launcher to restart the bot automatically
+          setTimeout(() => process.exit(1), 1500);
       }
   };
   

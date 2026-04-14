@@ -6,7 +6,6 @@
   const https   = require('https');
   const fs      = require('fs');
   const path    = require('path');
-  const { spawn } = require('child_process');
   const { getBotName } = require('../../lib/botname');
 
   const REPO   = 'TOOSII102/toosii-xd-ultra';
@@ -168,16 +167,7 @@
               ].join('\n')
           }, { quoted: msg });
 
-          setTimeout(() => {
-              const child = spawn(process.execPath, process.argv.slice(1), {
-                  detached: true,
-                  stdio:    'inherit',
-                  env:      process.env,
-                  cwd:      process.cwd()
-              });
-              child.unref();
-              setTimeout(() => process.exit(0), 1000);
-          }, 3000);
+          // Exit code 1 — the launcher (index.js) catches this and restarts the bot
+          setTimeout(() => process.exit(1), 3000);
       },
   };
-  

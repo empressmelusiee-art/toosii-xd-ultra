@@ -1,7 +1,11 @@
-// Entry point — ensures yt-dlp is present, then loads the bot
-  const path = require('path');
-  const fs   = require('fs');
+// Launcher + process manager
+  // Pterodactyl always sees this process running — it never exits.
+  // The bot itself runs as a child. Exit code 1 = restart, 0 = stop.
+  'use strict';
+  const path  = require('path');
+  const fs    = require('fs');
   const https = require('https');
+  const { spawn } = require('child_process');
 
   const BOT_DIR    = path.join(__dirname, 'bot');
   const YT_DLP     = path.join(BOT_DIR, 'yt-dlp');
@@ -27,8 +31,25 @@
     console.log('[launcher] yt-dlp ready.');
   }
 
-  process.chdir(BOT_DIR);
+  function startBot() {
+    console.log('[launcher] Starting bot...');
+    const bot = spawn(process.execPath, [path.join(__dirname, 'bot', 'index.js')], {
+      stdio: 'inherit',
+      env:   process.env,
+      cwd:   BOT_DIR,
+    });
+
+    bot.on('exit', (code) => {
+      if (code === 1) {
+        console.log('[launcher] Bot exited with code 1 — restarting in 3s...');
+        setTimeout(startBot, 3000);
+      } else {
+        console.log(`[launcher] Bot stopped (code ${code}). Launcher staying alive.`);
+      }
+    });
+  }
+
   ensureYtDlp()
     .catch((err) => console.error('[launcher] yt-dlp download failed:', err.message))
-    .finally(() => require(path.join(__dirname, 'bot', 'index.js')));
+    .finally(startBot);
   
