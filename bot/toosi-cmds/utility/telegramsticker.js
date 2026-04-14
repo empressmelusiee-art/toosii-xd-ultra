@@ -103,14 +103,14 @@ module.exports = {
                         `║ 💡 *Alternative*: Forward a Telegram sticker`,
                         `║    as a document then reply with *${prefix}telegramsticker*`,
                         `║`,
-                        `╚═|〔 ${name} 〕`,
+                        `╚═╝`,
                     ].join('\n')
                 }, { quoted: msg });
             }
 
             const packName = parsePack(input);
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  🎭 TELEGRAM STICKER 〕\n║\n║ ⏳ Fetching pack *${packName}*...\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  🎭 TELEGRAM STICKER 〕\n║\n║ ⏳ Fetching pack *${packName}*...\n║\n╚═╝`
             }, { quoted: msg });
 
             try {
@@ -119,7 +119,7 @@ module.exports = {
                 if (!stickers.length) throw new Error('Sticker pack is empty');
 
                 await sock.sendMessage(chatId, {
-                    text: `╔═|〔  🎭 TELEGRAM STICKER 〕\n║\n║ ▸ *Pack*  : ${pack.title}\n║ ▸ *Count* : ${stickers.length} stickers\n║ ▸ Sending first 5...\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  🎭 TELEGRAM STICKER 〕\n║\n║ ▸ *Pack*  : ${pack.title}\n║ ▸ *Count* : ${stickers.length} stickers\n║ ▸ Sending first 5...\n║\n╚═╝`
                 }, { quoted: msg });
 
                 const toSend = stickers.slice(0, 5);
@@ -135,7 +135,7 @@ module.exports = {
 
             } catch (e) {
                 await sock.sendMessage(chatId, {
-                    text: `╔═|〔  🎭 TELEGRAM STICKER 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  🎭 TELEGRAM STICKER 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
                 }, { quoted: msg });
             }
             return;
@@ -163,7 +163,7 @@ module.exports = {
                     `║`,
                     `║ 💡 Example: ${prefix}telegramsticker Animals`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -185,7 +185,7 @@ module.exports = {
 
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  🎭 TELEGRAM STICKER 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  🎭 TELEGRAM STICKER 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
