@@ -184,7 +184,7 @@ function setupAntiGroupMentionListener(sock) {
                         `║ ▸ *Action* : 🗑️ Message deleted`,
                         `║ ▸ *Reason* : External group mention not allowed`,
                         `║`,
-                        `╚═|〔 ${botName} 〕`,
+                        `╚═╝`,
                     ].join('\n')
                 });
 
@@ -211,7 +211,7 @@ function setupAntiGroupMentionListener(sock) {
                         `║ ▸ *Warns*  : ${Math.min(count, WARN_MAX)}/${WARN_MAX}`,
                         `║ ▸ *Reason* : External group mention` + extra,
                         `║`,
-                        `╚═|〔 ${botName} 〕`,
+                        `╚═╝`,
                     ].join('\n')
                 });
 
@@ -229,7 +229,7 @@ function setupAntiGroupMentionListener(sock) {
                         `║ ▸ *Action* : ${kicked ? '🚫 Kicked' : '❌ Kick failed (bot not admin?)'}`,
                         `║ ▸ *Reason* : External group mention`,
                         `║`,
-                        `╚═|〔 ${botName} 〕`,
+                        `╚═╝`,
                     ].join('\n')
                 });
             }
@@ -254,12 +254,12 @@ module.exports = {
 
         if (!ctx?.isOwnerUser && !ctx?.isSudoUser && !ctx?.isGroupAdmin) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  ANTI GROUP MENTION 〕\n║\n║ ▸ *Status* : ❌ Admins/Owner only\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  ANTI GROUP MENTION 〕\n║\n║ ▸ *Status* : ❌ Admins/Owner only\n║\n╚═╝`
             }, { quoted: msg });
         }
         if (!chatId.endsWith('@g.us')) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  ANTI GROUP MENTION 〕\n║\n║ ▸ *Status* : ❌ Groups only\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  ANTI GROUP MENTION 〕\n║\n║ ▸ *Status* : ❌ Groups only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -286,7 +286,7 @@ module.exports = {
                     `║   ${prefix}agm admins on / off`,
                     `║   ${prefix}agm sudos on / off`,
                     `║`,
-                    `╚═|〔 ${botName} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -301,7 +301,7 @@ module.exports = {
                     `║ ▸ *State*  : ${gcfg.enabled ? '✅ Enabled' : '❌ Disabled'}`,
                     `║ ▸ *Action* : ${aIcon(gcfg.action)}`,
                     `║`,
-                    `╚═|〔 ${botName} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -315,7 +315,7 @@ module.exports = {
                     `║`,
                     `║ ▸ *Action* : ${aIcon(gcfg.action)} ✅ Set`,
                     `║`,
-                    `╚═|〔 ${botName} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -325,7 +325,7 @@ module.exports = {
             gcfg.exemptAdmins = sub2 === 'on' ? true : sub2 === 'off' ? false : !gcfg.exemptAdmins;
             save();
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  ANTI GROUP MENTION 〕\n║\n║ ▸ *Exempt admins* : ${flag(gcfg.exemptAdmins)}\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  ANTI GROUP MENTION 〕\n║\n║ ▸ *Exempt admins* : ${flag(gcfg.exemptAdmins)}\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -334,7 +334,7 @@ module.exports = {
             gcfg.exemptSudos = sub2 === 'on' ? true : sub2 === 'off' ? false : !gcfg.exemptSudos;
             save();
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  ANTI GROUP MENTION 〕\n║\n║ ▸ *Exempt sudos* : ${flag(gcfg.exemptSudos)}\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  ANTI GROUP MENTION 〕\n║\n║ ▸ *Exempt sudos* : ${flag(gcfg.exemptSudos)}\n║\n╚═╝`
             }, { quoted: msg });
         }
 
