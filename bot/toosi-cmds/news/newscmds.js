@@ -37,22 +37,31 @@ async function fetchRss(url) {
 
 // ── 1. BBC World News (BBC RSS — free) ───────────────────────────────────────
 const bbcCmd = {
-    name: 'bbcnews',
-    aliases: ['bbc', 'bbcnew', 'worldnews'],
-    description: 'Latest BBC world news headlines',
+    name: 'news',
+    aliases: ['bbcnews', 'bbc', 'bbcnew', 'worldnews', 'headlines', 'breakingnews', 'latestnews', 'topnews'],
+    description: 'Latest BBC news headlines — .news [topic] (world|tech|sport|health|science|business|africa)',
     category: 'news',
     async execute(sock, msg, args) {
         const chatId = msg.key.remoteJid;
         const name   = getBotName();
         const section = (args[0] || '').toLowerCase();
 
+        const ALIAS = { football: 'sport', soccer: 'sport', sports: 'sport', technology: 'tech', it: 'tech', international: 'world', global: 'world', economy: 'business', finance: 'business', biz: 'business', environment: 'science', kenya: 'africa' };
+        const key    = ALIAS[section] || section;
+
         const RSS_URLS = {
-            sport:  'https://feeds.bbci.co.uk/sport/rss.xml',
-            tech:   'https://feeds.bbci.co.uk/news/technology/rss.xml',
-            world:  'https://feeds.bbci.co.uk/news/world/rss.xml',
+            sport:         'https://feeds.bbci.co.uk/sport/rss.xml',
+            tech:          'https://feeds.bbci.co.uk/news/technology/rss.xml',
+            world:         'https://feeds.bbci.co.uk/news/world/rss.xml',
+            health:        'https://feeds.bbci.co.uk/news/health/rss.xml',
+            science:       'https://feeds.bbci.co.uk/news/science_and_environment/rss.xml',
+            business:      'https://feeds.bbci.co.uk/news/business/rss.xml',
+            africa:        'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
+            entertainment: 'https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml',
         };
-        const rssUrl = RSS_URLS[section] || 'https://feeds.bbci.co.uk/news/rss.xml';
-        const label  = section ? section.toUpperCase() : 'TOP STORIES';
+        const rssUrl = RSS_URLS[key] || 'https://feeds.bbci.co.uk/news/rss.xml';
+        const label  = key ? key.toUpperCase() : 'TOP STORIES';
+        const sections = Object.keys(RSS_URLS).join(' | ');
 
         try {
             await sock.sendMessage(chatId, { react: { text: '🌍', key: msg.key } });
@@ -65,7 +74,7 @@ const bbcCmd = {
             ).join('\n║\n');
 
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  🌍 BBC — ${label} 〕\n║\n${list}\n║\n║ 💡 Sections: sport | tech | world\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  🌍 BBC NEWS — ${label} 〕\n║\n${list}\n║\n║ 💡 Topics: ${sections}\n║\n╚═|〔 ${name} 〕`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
