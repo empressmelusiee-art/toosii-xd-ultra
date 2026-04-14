@@ -15,25 +15,25 @@ module.exports = {
 
         if (!chatId.endsWith('@g.us')) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  LEAVE 〕\n║\n║ ▸ *Status* : ❌ Group only\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  LEAVE 〕\n║\n║ ▸ *Status* : ❌ Group only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
         if (!ctx?.isOwnerUser && !ctx?.isSudoUser) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  LEAVE 〕\n║\n║ ▸ *Status* : ❌ Permission denied\n║ ▸ *Reason* : Owner / sudo users only\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  LEAVE 〕\n║\n║ ▸ *Status* : ❌ Permission denied\n║ ▸ *Reason* : Owner / sudo users only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
         try {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  LEAVE 〕\n║\n║ ▸ Goodbye everyone! 👋\n║ ▸ ${name} signing off...\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  LEAVE 〕\n║\n║ ▸ Goodbye everyone! 👋\n║ ▸ ${name} signing off...\n║\n╚═╝`
             });
             await new Promise(r => setTimeout(r, 1500));
             await sock.groupLeave(chatId);
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  LEAVE 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  LEAVE 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
