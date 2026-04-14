@@ -33,7 +33,7 @@ module.exports = {
 
         if (!ctx?.isOwnerUser && !ctx?.isSudoUser) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  AUTO VIEW STATUS 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  AUTO VIEW STATUS 〕\n║\n║ ▸ *Status* : ❌ Owner only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -52,7 +52,7 @@ module.exports = {
                     `║ ▸ *Usage* :`,
                     `║   ${prefix}avs on / off`,
                     `║`,
-                    `╚═|〔 ${botName} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -69,7 +69,7 @@ module.exports = {
                     `║`,
                     `║ ▸ *State* : ${enabled ? '✅ Enabled' : '❌ Disabled'}`,
                     `║`,
-                    `╚═|〔 ${botName} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -78,7 +78,7 @@ module.exports = {
         if (sub) return;
         const now = toggle('autoviewstatus');
         return sock.sendMessage(chatId, {
-            text: `╔═|〔  AUTO VIEW STATUS 〕\n║\n║ ▸ *State* : ${now ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═|〔 ${botName} 〕`
+            text: `╔═|〔  AUTO VIEW STATUS 〕\n║\n║ ▸ *State* : ${now ? '✅ Enabled' : '❌ Disabled'}\n║\n╚═╝`
         }, { quoted: msg });
     }
 };
