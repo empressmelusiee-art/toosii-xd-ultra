@@ -5,12 +5,12 @@ const { getBotName } = require('../../lib/botname');
 
 function box(title, icon, lines) {
     const name = getBotName();
-    return `╔═|〔  ${icon} ${title} 〕\n║\n` + lines.filter(Boolean).join('\n') + `\n║\n╚═|〔 ${name} 〕`;
+    return `╔═|〔  ${icon} ${title} 〕\n║\n` + lines.filter(Boolean).join('\n') + `\n║\n╚═╝`;
 }
 
 function err(title, icon, reason) {
     const name = getBotName();
-    return `╔═|〔  ${icon} ${title} 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${reason}\n║\n╚═|〔 ${name} 〕`;
+    return `╔═|〔  ${icon} ${title} 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${reason}\n║\n╚═╝`;
 }
 
 function decode(s) {
@@ -151,7 +151,7 @@ const memeCmd = {
                 `╔═|〔  😹 MEME 〕\n║\n` +
                 `║ ▸ *${m.title}*\n` +
                 `║ ▸ r/${m.subreddit} · 👍 ${(m.ups || 0).toLocaleString()} · u/${m.author}\n` +
-                `║ ▸ 🔗 ${m.postLink}\n║\n╚═|〔 ${name} 〕`;
+                `║ ▸ 🔗 ${m.postLink}\n║\n╚═╝`;
 
             const buf = await dlBuffer(m.url);
             const ext = m.url.split('?')[0].split('.').pop()?.toLowerCase() || 'jpg';
@@ -297,7 +297,7 @@ const roastCmd = {
         const pick   = ROASTS[Math.floor(Math.random() * ROASTS.length)];
         const header = `╔═|〔  🔥 ROAST 〕\n║\n`;
         await sock.sendMessage(chatId, {
-            text: `${header}║ ${pick}\n║\n╚═|〔 ${name} 〕`
+            text: `${header}║ ${pick}\n║\n╚═╝`
         }, { quoted: msg });
     }
 };
