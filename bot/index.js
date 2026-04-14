@@ -3940,7 +3940,7 @@ function cacheViewOnceMessage(chatId, messageId, msg) {
             const oldest = viewOnceCache.keys().next().value;
             viewOnceCache.delete(oldest);
         }
-        originalConsoleMethods.log(`🔐 [VO-CACHE] Stored view-once msg ${messageId.substring(0, 8)}... in dedicated cache (total: ${viewOnceCache.size})`);
+        // [SILENT] originalConsoleMethods.log(`🔐 [VO-CACHE] Stored view-once msg ${messageId.substring(0, 8)}... in dedicated cache (total: ${viewOnceCache.size})`);
     } catch {}
 }
 
@@ -5519,7 +5519,7 @@ async function startBot(loginMode = 'auto', loginData = null) {
                     // Skip logging fromMe=true CIPHERTEXT null msgs — they're silently discarded, no need to spam logs
                     const _isSilentDiscard = _isNullMsg && _t0FromMe && _t0?.messageStubType === 2;
                     if (!_isSilentDiscard) {
-                        originalConsoleMethods.log(`🔍 [AV-RAW] type="${type}" fromMe=${_t0FromMe} jid=${_t0Jid.split('@')[0]} keys=${_t0Keys.join(',') || 'NULL'} stubType=${_t0?.messageStubType || 'none'}${_voFlag ? ' ' + _voFlag : ''}`);
+                        // [SILENT] originalConsoleMethods.log(`🔍 [AV-RAW] type="${type}" fromMe=${_t0FromMe} jid=${_t0Jid.split('@')[0]} keys=${_t0Keys.join(',') || 'NULL'} stubType=${_t0?.messageStubType || 'none'}${_voFlag ? ' ' + _voFlag : ''}`);
                     }
                     // Track null-message as a potential encrypted view-once (groups AND DMs)
                     const _isDmNullMsg = _isNullMsg && !_t0FromMe && (_t0Jid.endsWith('@s.whatsapp.net') || _t0Jid.endsWith('@lid')) && _t0?.key?.id;
@@ -5527,14 +5527,14 @@ async function startBot(loginMode = 'auto', loginData = null) {
                         // Only queue non-CIPHERTEXT group null messages for retry
                         // stubType=2 (CIPHERTEXT) = sender key missing — bot needs fresh key distribution
                         _nullMsgPending.add(_t0.key.id);
-                        originalConsoleMethods.log(`🔍 [AV-NULL] Queued null-msg ${_t0.key.id.slice(0,8)} for retry (stubType=${_t0?.messageStubType || 'none'})`);
+                        // [SILENT] originalConsoleMethods.log(`🔍 [AV-NULL] Queued null-msg ${_t0.key.id.slice(0,8)} for retry (stubType=${_t0?.messageStubType || 'none'})`);
                         // Clean up pending set after 5 min to avoid leaking memory
                         setTimeout(() => { _nullMsgPending.delete(_t0.key.id); }, 300000);
                     } else if (_isDmNullMsg && _t0?.messageStubType !== 2) {
                         // DM null-msg — view-once in private chat; store so getMessage can respond and Baileys retries
                         _nullMsgPending.add(_t0.key.id);
                         _ciphertextStore.set(_t0.key.id, _t0);
-                        originalConsoleMethods.log(`🔍 [AV-NULL-DM] Queued DM null-msg ${_t0.key.id.slice(0,8)} for retry`);
+                        // [SILENT] originalConsoleMethods.log(`🔍 [AV-NULL-DM] Queued DM null-msg ${_t0.key.id.slice(0,8)} for retry`);
                         if (_ciphertextStore.size > _CIPHERTEXT_STORE_MAX) {
                             const _oldest = _ciphertextStore.keys().next().value;
                             _ciphertextStore.delete(_oldest);
@@ -5549,7 +5549,7 @@ async function startBot(loginMode = 'auto', loginData = null) {
                         if (_t0FromMe || _ciphertextBlacklist.has(_t0?.key?.id)) {
                             // silently discard
                         } else if (_t0?.key?.id) {
-                            originalConsoleMethods.log(`🔍 [AV-CIPHERTEXT] Cannot decrypt — queuing for retry handshake: ${_t0.key?.id?.slice(0,8)}`);
+                            // [SILENT] originalConsoleMethods.log(`🔍 [AV-CIPHERTEXT] Cannot decrypt — queuing for retry handshake: ${_t0.key?.id?.slice(0,8)}`);
                             _ciphertextStore.set(_t0.key.id, _t0);
                             _nullMsgPending.add(_t0.key.id);
                             if (_ciphertextStore.size > _CIPHERTEXT_STORE_MAX) {
@@ -5567,19 +5567,19 @@ async function startBot(loginMode = 'auto', loginData = null) {
                     const _tVo = detectViewOnceMedia(_t0.message);
                     if (_tVo) {
                         const _tSender = (_t0.key?.participant || _t0.key?.remoteJid || '?').split('@')[0].split(':')[0];
-                        originalConsoleMethods.log(`🔍 [AV-TRACE] type="${type}" fromMe=${_t0?.key?.fromMe} sender=${_tSender} mediaType=${_tVo.type}`);
+                        // [SILENT] originalConsoleMethods.log(`🔍 [AV-TRACE] type="${type}" fromMe=${_t0?.key?.fromMe} sender=${_tSender} mediaType=${_tVo.type}`);
                     } else {
                         // Wide net: log raw message keys if any VO-related key is present
                         const _rawKeys = Object.keys(_t0.message);
                         const _voRelated = _rawKeys.some(k => k.includes('viewOnce') || k.includes('ViewOnce') || k.includes('ephemeral'));
                         const _hasImage = _rawKeys.some(k => k === 'imageMessage' || k === 'videoMessage');
                         if (_voRelated || (_hasImage && _t0.message?.imageMessage?.viewOnce)) {
-                            originalConsoleMethods.log(`🔍 [AV-MISS] type="${type}" fromMe=${_t0FromMe} sender=${_tSender} keys=${_rawKeys.join(',')}`);
+                            // [SILENT] originalConsoleMethods.log(`🔍 [AV-MISS] type="${type}" fromMe=${_t0FromMe} sender=${_tSender} keys=${_rawKeys.join(',')}`);
                             for (const k of _rawKeys) {
                                 if (k.includes('viewOnce') || k.includes('ViewOnce') || k.includes('ephemeral')) {
                                     const nested = _t0.message[k];
                                     if (nested && typeof nested === 'object') {
-                                        originalConsoleMethods.log(`🔍 [AV-MISS-NESTED] key=${k} innerKeys=${Object.keys(nested).join(',')}`);
+                                        // [SILENT] originalConsoleMethods.log(`🔍 [AV-MISS-NESTED] key=${k} innerKeys=${Object.keys(nested).join(',')}`);
                                     }
                                 }
                             }
@@ -5615,7 +5615,7 @@ async function startBot(loginMode = 'auto', loginData = null) {
                             if (_avFresh) {
                                 const _appendVo = detectViewOnceMedia(m0.message);
                                 if (_appendVo) {
-                                    originalConsoleMethods.log(`🔍 [AV-APPEND] Fresh view-once (${_appendVo.type}) in append event — processing...`);
+                                    // [SILENT] originalConsoleMethods.log(`🔍 [AV-APPEND] Fresh view-once (${_appendVo.type}) in append event — processing...`);
                                     handleViewOnceDetection(sock, m0).catch(err => {
                                         originalConsoleMethods.log(`❌ [AV-APPEND] Error: ${err.message}`);
                                     });
@@ -5640,17 +5640,17 @@ async function startBot(loginMode = 'auto', loginData = null) {
                     // Retry arrived with content — remove from pending and allow through
                     _nullMsgPending.delete(_msgDedupId);
                     const _retryKeys = Object.keys(msg.message);
-                    originalConsoleMethods.log(`🔍 [AV-RETRY] Null-msg retry delivered for ${_msgDedupId.slice(0,8)} keys=${_retryKeys.join(',')}`);
+                    // [SILENT] originalConsoleMethods.log(`🔍 [AV-RETRY] Null-msg retry delivered for ${_msgDedupId.slice(0,8)} keys=${_retryKeys.join(',')}`);
                     // If it has viewOnce/media keys, force the view-once handler directly
                     const _retryVo = detectViewOnceMedia(msg.message);
                     if (_retryVo) {
-                        originalConsoleMethods.log(`🔍 [AV-RETRY-VO] View-once confirmed! type=${_retryVo.type} — processing...`);
+                        // [SILENT] originalConsoleMethods.log(`🔍 [AV-RETRY-VO] View-once confirmed! type=${_retryVo.type} — processing...`);
                         handleViewOnceDetection(sock, msg).catch(err => originalConsoleMethods.log(`❌ [AV-RETRY-VO] ${err.message}`));
                     } else {
                         // Also try if it has direct image/video without viewOnce flag
                         const _hasDirectMedia = _retryKeys.includes('imageMessage') || _retryKeys.includes('videoMessage') || _retryKeys.includes('audioMessage');
                         if (_hasDirectMedia) {
-                            originalConsoleMethods.log(`🔍 [AV-RETRY-MEDIA] Has direct media keys=${_retryKeys.join(',')} — checking viewOnce flag`);
+                            // [SILENT] originalConsoleMethods.log(`🔍 [AV-RETRY-MEDIA] Has direct media keys=${_retryKeys.join(',')} — checking viewOnce flag`);
                         }
                     }
                 } else if (!_processedMsgIds.has(_msgDedupId)) {
@@ -7137,7 +7137,7 @@ async function handleIncomingMessage(sock, msg) {
             const _dmSender = senderJid.split('@')[0].split(':')[0];
             const _dmContent = msg.message ? Object.keys(msg.message)[0] : 'NULL';
             const _dmText = msg.message?.conversation || msg.message?.extendedTextMessage?.text || '';
-            originalConsoleMethods.log(`🔍 [DM-IN] sender=${_dmSender} chatId=${chatId} type=${_dmContent} text="${_dmText.substring(0,40)}"`);
+            // [SILENT] originalConsoleMethods.log(`🔍 [DM-IN] sender=${_dmSender} chatId=${chatId} type=${_dmContent} text="${_dmText.substring(0,40)}"`);
         }
         
         if (isGroup && senderJid.includes('@lid')) {
@@ -7332,7 +7332,7 @@ async function handleIncomingMessage(sock, msg) {
         const textMsg = extractTextFromMessage(msg.message);
         
         if (!isGroup && !msg.key.fromMe && chatId !== 'status@broadcast') {
-            originalConsoleMethods.log(`🔍 [DM-TXT] textMsg="${(textMsg||'').substring(0,40)}" → ${textMsg ? 'ok' : 'DROPPED (empty)'}`);
+            // [SILENT] originalConsoleMethods.log(`🔍 [DM-TXT] textMsg="${(textMsg||'').substring(0,40)}" → ${textMsg ? 'ok' : 'DROPPED (empty)'}`);
         }
         if (!textMsg) return;
 
@@ -7453,7 +7453,7 @@ async function handleIncomingMessage(sock, msg) {
         }
 
         if (!isGroup && !msg.key.fromMe && chatId !== 'status@broadcast') {
-            originalConsoleMethods.log(`🔍 [DM-CMD] commandName="${commandName}" text="${textMsg.substring(0,30)}" prefix="${getCurrentPrefix()}" prefixless=${isPrefixless}`);
+            // [SILENT] originalConsoleMethods.log(`🔍 [DM-CMD] commandName="${commandName}" text="${textMsg.substring(0,30)}" prefix="${getCurrentPrefix()}" prefixless=${isPrefixless}`);
         }
 
         if (!commandName) {
