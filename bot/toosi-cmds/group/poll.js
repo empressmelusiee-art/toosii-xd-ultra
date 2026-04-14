@@ -24,7 +24,7 @@ module.exports = {
             `║`,
             `║ ▸ Works in *groups AND DMs* ✅`,
             `║`,
-            `╚═|〔 ${name} 〕`,
+            `╚═╝`,
         ].join('\n');
 
         const raw = args.join(' ').trim();
@@ -33,7 +33,7 @@ module.exports = {
         const parts = raw.split('|').map(p => p.trim()).filter(Boolean);
         if (parts.length < 3) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  POLL 〕\n║\n║ ▸ ❌ Need a question + at least 2 options\n║ ▸ Separate with *|*\n║ ▸ Example: ${prefix}poll Best? | Yes | No\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  POLL 〕\n║\n║ ▸ ❌ Need a question + at least 2 options\n║ ▸ Separate with *|*\n║ ▸ Example: ${prefix}poll Best? | Yes | No\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -42,7 +42,7 @@ module.exports = {
 
         if (options.length > 12) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  POLL 〕\n║\n║ ▸ ❌ Maximum 12 options allowed\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  POLL 〕\n║\n║ ▸ ❌ Maximum 12 options allowed\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -56,7 +56,7 @@ module.exports = {
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  POLL 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  POLL 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
