@@ -16,14 +16,14 @@ module.exports = {
 
         if (!chatId.endsWith('@g.us')) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  REVOKE 〕\n║\n║ ▸ *Status* : ❌ Group only\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  REVOKE 〕\n║\n║ ▸ *Status* : ❌ Group only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
         const { ok } = await checkPrivilege(sock, chatId, msg, ctx);
         if (!ok) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  REVOKE 〕\n║\n║ ▸ *Status* : ❌ Permission denied\n║ ▸ *Reason* : Sudo users and group admins only\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  REVOKE 〕\n║\n║ ▸ *Status* : ❌ Permission denied\n║ ▸ *Reason* : Sudo users and group admins only\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -31,11 +31,11 @@ module.exports = {
             const code = await sock.groupRevokeInvite(chatId);
             const link = `https://chat.whatsapp.com/${code}`;
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  REVOKE LINK 〕\n║\n║ ▸ *Status*   : ✅ Old link revoked\n║ ▸ *New Link* : ${link}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  REVOKE LINK 〕\n║\n║ ▸ *Status*   : ✅ Old link revoked\n║ ▸ *New Link* : ${link}\n║\n╚═╝`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  REVOKE 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  REVOKE 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
