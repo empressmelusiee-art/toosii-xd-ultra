@@ -18,7 +18,7 @@ module.exports = {
 
         if (!ctx.isOwner()) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  📋 SUDO LIST 〕\n║\n║ ▸ *Status* : ❌ Owner only command\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  📋 SUDO LIST 〕\n║\n║ ▸ *Status* : ❌ Owner only command\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -26,13 +26,13 @@ module.exports = {
 
         if (!sudoers.length) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  📋 SUDO LIST 〕\n║\n║ ▸ *Status* : No sudo users configured\n║ ▸ *Tip*    : Use ${PREFIX}addsudo to add one\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  📋 SUDO LIST 〕\n║\n║ ▸ *Status* : No sudo users configured\n║ ▸ *Tip*    : Use ${PREFIX}addsudo to add one\n║\n╚═╝`
             }, { quoted: msg });
         }
 
         const lines = sudoers.map((n, i) => `║  ${i + 1}. +${n}`).join('\n');
         return sock.sendMessage(chatId, {
-            text: `╔═|〔  📋 SUDO LIST 〕\n║\n║ ▸ *Total* : ${sudoers.length} user(s)\n║\n${lines}\n║\n╚═|〔 ${botName} 〕`
+            text: `╔═|〔  📋 SUDO LIST 〕\n║\n║ ▸ *Total* : ${sudoers.length} user(s)\n║\n${lines}\n║\n╚═╝`
         }, { quoted: msg });
     }
 };
