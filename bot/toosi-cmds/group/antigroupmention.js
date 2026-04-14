@@ -125,7 +125,12 @@ async function isExempt(sock, chatId, senderJid, gcfg) {
 }
 
 // ── event listener ────────────────────────────────────────────────────────────
+const _agmRegistered = new WeakSet();
+
 function setupAntiGroupMentionListener(sock) {
+    if (_agmRegistered.has(sock)) return;
+    _agmRegistered.add(sock);
+
     const startedAt = Math.floor(Date.now() / 1000);
 
     sock.ev.on('messages.upsert', async ({ messages }) => {
@@ -141,12 +146,15 @@ function setupAntiGroupMentionListener(sock) {
 
             const cfg  = loadCfg();
             const gcfg = cfg[chatId];
-            if (!gcfg?.enabled) continue;
+            if (gcfg?.enabled !== true) continue;
 
             if (!hasExternalGroupMention(msg, chatId)) continue;
 
             const sender  = msg.key.participant || msg.key.remoteJid || '';
             if (await isExempt(sock, chatId, sender, gcfg)) continue;
+
+            // Re-check enabled after await — user may have turned AGM off in the meantime
+            if (loadCfg()[chatId]?.enabled !== true) continue;
 
             const action  = gcfg.action || 'delete';
             const botName = getBotName();
