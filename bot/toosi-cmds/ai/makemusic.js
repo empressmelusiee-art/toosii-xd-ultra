@@ -48,7 +48,7 @@ const makemusicCmd = {
                     `║`,
                     `║ ⏳ *Note* : Generation takes ~2-3 minutes`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
@@ -74,7 +74,7 @@ const makemusicCmd = {
 
         if (!prompt) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  🎵 AI MUSIC 〕\n║\n║ ▸ Please provide a prompt!\n║ ▸ *Usage* : ${prefix}makemusic <prompt>\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  🎵 AI MUSIC 〕\n║\n║ ▸ Please provide a prompt!\n║ ▸ *Usage* : ${prefix}makemusic <prompt>\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -96,7 +96,7 @@ const makemusicCmd = {
                 `║ ⏳ Generating your song... (2-3 mins)`,
                 `║ 🎧 Sit tight, AI is composing! 🔥`,
                 `║`,
-                `╚═|〔 ${name} 〕`,
+                `╚═╝`,
             ].join('\n')
         }, { quoted: msg });
 
@@ -143,7 +143,7 @@ const makemusicCmd = {
                 `║`,
                 `║ 🤖 Powered by Toosii AI 🔥`,
                 `║`,
-                `╚═|〔 ${name} 〕`,
+                `╚═╝`,
             ].join('\n');
 
             await sock.sendMessage(chatId, {
@@ -171,7 +171,7 @@ const makemusicCmd = {
                     `║`,
                     `║ ${tip}`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
         }
