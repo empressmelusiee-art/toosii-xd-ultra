@@ -30,11 +30,11 @@ function errMsg(title, icon, reason) {
 async function ghFetch(path) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 12000);
+    const headers = { 'User-Agent': 'ToosiiBot/1.0', Accept: 'application/vnd.github.v3+json' };
+    const token = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
+    if (token) headers['Authorization'] = `token ${token}`;
     try {
-        const res = await fetch(`https://api.github.com${path}`, {
-            signal: controller.signal,
-            headers: { 'User-Agent': 'ToosiiBot/1.0', Accept: 'application/vnd.github.v3+json' }
-        });
+        const res = await fetch(`https://api.github.com${path}`, { signal: controller.signal, headers });
         if (!res.ok) throw new Error(`GitHub HTTP ${res.status}`);
         return res.json();
     } finally { clearTimeout(timer); }
@@ -96,7 +96,7 @@ const ghStalkCmd = {
 
         try {
             await sock.sendMessage(chatId, { react: { text: '🐙', key: msg.key } });
-            const repo = await ghFetch(`/repos/${encodeURIComponent(input)}`);
+            const repo = await ghFetch(`/repos/${input.trim()}`);
             if (!repo?.full_name) throw new Error('Repo not found');
 
             await sock.sendMessage(chatId, {
