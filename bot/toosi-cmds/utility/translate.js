@@ -37,7 +37,7 @@ module.exports = {
             const text2 = args.length > 1 ? args.slice(1).join(' ') : null;
             if (!text2) {
                 return sock.sendMessage(chatId, {
-                    text: `╔═|〔  TRANSLATE 〕\n║\n║ ▸ *Usage* : ${prefix}tr <lang> <text>\n║           OR reply a message with\n║           ${prefix}tr <lang>\n║ ▸ *Langs* : en, es, fr, ar, sw,\n║            de, pt, zh, ja, ko...\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  TRANSLATE 〕\n║\n║ ▸ *Usage* : ${prefix}tr <lang> <text>\n║           OR reply a message with\n║           ${prefix}tr <lang>\n║ ▸ *Langs* : en, es, fr, ar, sw,\n║            de, pt, zh, ja, ko...\n║\n╚═╝`
                 }, { quoted: msg });
             }
         }
@@ -45,7 +45,7 @@ module.exports = {
         const finalText = quotedText || args.slice(1).join(' ');
         if (!finalText) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  TRANSLATE 〕\n║\n║ ▸ *Usage* : ${prefix}tr <lang> <text>\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  TRANSLATE 〕\n║\n║ ▸ *Usage* : ${prefix}tr <lang> <text>\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -59,11 +59,11 @@ module.exports = {
             if (!translated) throw new Error('No translation returned');
 
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  TRANSLATE 〕\n║\n║ ▸ *Lang*   : ${targetLang.toUpperCase()}\n║ ▸ *Input*  : ${finalText.slice(0, 80)}\n║ ▸ *Result* : ${translated.slice(0, 300)}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  TRANSLATE 〕\n║\n║ ▸ *Lang*   : ${targetLang.toUpperCase()}\n║ ▸ *Input*  : ${finalText.slice(0, 80)}\n║ ▸ *Result* : ${translated.slice(0, 300)}\n║\n╚═╝`
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  TRANSLATE 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  TRANSLATE 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
