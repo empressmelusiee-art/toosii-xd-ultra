@@ -33,12 +33,12 @@ module.exports = {
 
         if (!ctx.isOwner() && !ctx.isSudo()) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  MODE 〕\n║\n║ ▸ *Status* : ❌ Owner only command\n║\n╚═|〔 ${botName} 〕`
+                text: `╔═|〔  MODE 〕\n║\n║ ▸ *Status* : ❌ Owner only command\n║\n╚═╝`
             }, { quoted: msg });
         }
 
         const H = '╔═|〔  BOT MODE 〕';
-        const F = `╚═|〔 ${botName} 〕`;
+        const F = `╚═╝`;
 
         const input = (args[0] || '').toLowerCase().trim();
 
