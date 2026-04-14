@@ -187,7 +187,7 @@ function getExcludeTypes(chatJid) {
 }
 
 const H = '╔═|〔  ANTI LINK 〕';
-const F = `╚═|〔 ${BOT_NAME} 〕`;
+const F = `╚═╝`;
 const SEP = '║';
 
 module.exports = {
