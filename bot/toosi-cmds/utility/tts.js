@@ -48,7 +48,7 @@ module.exports = {
             `║`,
             `║ ▸ *Voices* : ${VOICE_LIST}`,
             `║`,
-            `╚═|〔 ${name} 〕`,
+            `╚═╝`,
         ].join('\n');
 
         let rawText = args.join(' ').trim() || quotedText?.trim();
@@ -65,7 +65,7 @@ module.exports = {
         const voiceName = VOICES[voiceKey];
         if (!voiceName) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  TTS 〕\n║\n║ ▸ *Unknown voice* : ${voiceKey}\n║ ▸ *Voices*       : ${VOICE_LIST}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  TTS 〕\n║\n║ ▸ *Unknown voice* : ${voiceKey}\n║ ▸ *Voices*       : ${VOICE_LIST}\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -81,7 +81,7 @@ module.exports = {
             }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  TTS 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  TTS 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
