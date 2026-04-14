@@ -55,7 +55,7 @@ module.exports = {
             `║ ▸ *Signs* :`,
             `║   ${SIGN_LIST}`,
             `║`,
-            `╚═|〔 ${name} 〕`,
+            `╚═╝`,
         ].join('\n');
 
         const rawSign = args[0];
@@ -63,7 +63,7 @@ module.exports = {
 
         const sign = resolveSign(rawSign);
         if (!sign) return sock.sendMessage(chatId, {
-            text: `╔═|〔  HOROSCOPE 〕\n║\n║ ▸ *Unknown sign* : ${rawSign}\n║ ▸ *Valid signs*  : ${Object.keys(SIGNS).join(', ')}\n║\n╚═|〔 ${name} 〕`
+            text: `╔═|〔  HOROSCOPE 〕\n║\n║ ▸ *Unknown sign* : ${rawSign}\n║ ▸ *Valid signs*  : ${Object.keys(SIGNS).join(', ')}\n║\n╚═╝`
         }, { quoted: msg });
 
         const rawDay = (args[1] || 'today').toLowerCase();
@@ -91,13 +91,13 @@ module.exports = {
                 h.compatibility  ? `║ ▸ *Compatible* : ${h.compatibility}` : null,
                 h.mood           ? `║ ▸ *Mood*       : ${h.mood}`         : null,
                 `║`,
-                `╚═|〔 ${name} 〕`,
+                `╚═╝`,
             ].filter(Boolean).join('\n');
 
             await sock.sendMessage(chatId, { text: lines }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(chatId, {
-                text: `╔═|〔  HOROSCOPE 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  HOROSCOPE 〕\n║\n║ ▸ *Status* : ❌ Failed\n║ ▸ *Reason* : ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
