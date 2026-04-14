@@ -23,7 +23,7 @@ const xvideosSearchCmd = {
         const query = args.join(' ').trim();
         if (!query) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  XVIDEOS SEARCH 〕\n║\n║ ▸ *Usage*   : ${prefix}xvs <query>\n║ ▸ *Example* : ${prefix}xvs big booty\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  XVIDEOS SEARCH 〕\n║\n║ ▸ *Usage*   : ${prefix}xvs <query>\n║ ▸ *Example* : ${prefix}xvs big booty\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -32,7 +32,7 @@ const xvideosSearchCmd = {
             const results = data.result || [];
             if (!results.length) {
                 return sock.sendMessage(chatId, {
-                    text: `╔═|〔  XVIDEOS SEARCH 〕\n║\n║ ▸ *Query* : ${query}\n║ ▸ No results found\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  XVIDEOS SEARCH 〕\n║\n║ ▸ *Query* : ${query}\n║ ▸ No results found\n║\n╚═╝`
                 }, { quoted: msg });
             }
 
@@ -51,12 +51,12 @@ const xvideosSearchCmd = {
                 lines.push(`║`);
             });
             lines.push(`║ 💡 Use *${prefix}xvdl <url>* to download`);
-            lines.push(`╚═|〔 ${name} 〕`);
+            lines.push(`╚═╝`);
 
             return sock.sendMessage(chatId, { text: lines.join('\n') }, { quoted: msg });
         } catch (e) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  XVIDEOS SEARCH 〕\n║\n║ ▸ ❌ Error: ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  XVIDEOS SEARCH 〕\n║\n║ ▸ ❌ Error: ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
@@ -76,7 +76,7 @@ const xvideosDownloadCmd = {
         const url = args[0]?.trim();
         if (!url || !url.includes('xvideos.com')) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  XVIDEOS DOWNLOAD 〕\n║\n║ ▸ *Usage*   : ${prefix}xvdl <xvideos-url>\n║ ▸ *Example* : ${prefix}xvdl https://www.xvideos.com/video.xxx\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  XVIDEOS DOWNLOAD 〕\n║\n║ ▸ *Usage*   : ${prefix}xvdl <xvideos-url>\n║ ▸ *Example* : ${prefix}xvdl https://www.xvideos.com/video.xxx\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -93,7 +93,7 @@ const xvideosDownloadCmd = {
                     `║ ▸ *Size*  : ${r.size || 'unknown'}`,
                     `║ ▸ *Views* : ${r.views || 'N/A'}`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
 
@@ -104,7 +104,7 @@ const xvideosDownloadCmd = {
             }, { quoted: msg });
         } catch (e) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  XVIDEOS DOWNLOAD 〕\n║\n║ ▸ ❌ Error: ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  XVIDEOS DOWNLOAD 〕\n║\n║ ▸ ❌ Error: ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
@@ -124,7 +124,7 @@ const xnxxSearchCmd = {
         const query = args.join(' ').trim();
         if (!query) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  XNXX SEARCH 〕\n║\n║ ▸ *Usage*   : ${prefix}xns <query>\n║ ▸ *Example* : ${prefix}xns milf\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  XNXX SEARCH 〕\n║\n║ ▸ *Usage*   : ${prefix}xns <query>\n║ ▸ *Example* : ${prefix}xns milf\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -133,7 +133,7 @@ const xnxxSearchCmd = {
             const results = data.result || [];
             if (!results.length) {
                 return sock.sendMessage(chatId, {
-                    text: `╔═|〔  XNXX SEARCH 〕\n║\n║ ▸ *Query* : ${query}\n║ ▸ No results found\n║\n╚═|〔 ${name} 〕`
+                    text: `╔═|〔  XNXX SEARCH 〕\n║\n║ ▸ *Query* : ${query}\n║ ▸ No results found\n║\n╚═╝`
                 }, { quoted: msg });
             }
 
@@ -151,12 +151,12 @@ const xnxxSearchCmd = {
                 lines.push(`║`);
             });
             lines.push(`║ 💡 Use *${prefix}xndl <url>* to download`);
-            lines.push(`╚═|〔 ${name} 〕`);
+            lines.push(`╚═╝`);
 
             return sock.sendMessage(chatId, { text: lines.join('\n') }, { quoted: msg });
         } catch (e) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  XNXX SEARCH 〕\n║\n║ ▸ ❌ Error: ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  XNXX SEARCH 〕\n║\n║ ▸ ❌ Error: ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
@@ -176,7 +176,7 @@ const xnxxDownloadCmd = {
         const url = args[0]?.trim();
         if (!url || !url.includes('xnxx.com')) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  XNXX DOWNLOAD 〕\n║\n║ ▸ *Usage*   : ${prefix}xndl <xnxx-url>\n║ ▸ *Example* : ${prefix}xndl https://www.xnxx.com/video-xxx\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  XNXX DOWNLOAD 〕\n║\n║ ▸ *Usage*   : ${prefix}xndl <xnxx-url>\n║ ▸ *Example* : ${prefix}xndl https://www.xnxx.com/video-xxx\n║\n╚═╝`
             }, { quoted: msg });
         }
 
@@ -194,7 +194,7 @@ const xnxxDownloadCmd = {
                     `║ ▸ *Duration* : ${r.duration ? Math.round(r.duration / 60) + ' min' : 'N/A'}`,
                     `║ ▸ *Quality*  : ${r.info || 'N/A'}`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n')
             }, { quoted: msg });
 
@@ -205,7 +205,7 @@ const xnxxDownloadCmd = {
             }, { quoted: msg });
         } catch (e) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  XNXX DOWNLOAD 〕\n║\n║ ▸ ❌ Error: ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  XNXX DOWNLOAD 〕\n║\n║ ▸ ❌ Error: ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
@@ -239,13 +239,13 @@ const hentaiCmd = {
                     `║ ▸ *Category* : ${r.category || 'N/A'}`,
                     `║ ▸ *Views*    : ${r.views_count || 'N/A'}`,
                     `║`,
-                    `╚═|〔 ${name} 〕`,
+                    `╚═╝`,
                 ].join('\n'),
                 mimetype: 'video/mp4',
             }, { quoted: msg });
         } catch (e) {
             return sock.sendMessage(chatId, {
-                text: `╔═|〔  HENTAI 〕\n║\n║ ▸ ❌ Error: ${e.message}\n║\n╚═|〔 ${name} 〕`
+                text: `╔═|〔  HENTAI 〕\n║\n║ ▸ ❌ Error: ${e.message}\n║\n╚═╝`
             }, { quoted: msg });
         }
     }
