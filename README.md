@@ -1,187 +1,206 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,2,5,30&height=120&section=header&text=TOOSII-XD%20ULTRA&fontSize=42&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=WhatsApp%20Bot%20v1.2.0&descAlignY=60&descSize=18" width="100%"/>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,2,5,30&height=120&section=header&text=TOOSII-XD%20ULTRA&fontSize=42&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=WhatsApp%20Bot%20v1.2.0&descAlignY=60&descSize=18" width="100%"/>
 
-<img src="https://img.shields.io/badge/version-1.2.0-blueviolet?style=for-the-badge&logo=whatsapp&logoColor=white"/>
-<img src="https://img.shields.io/badge/Node.js-20.x-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/>
-<img src="https://img.shields.io/badge/Commands-947+-25D366?style=for-the-badge&logo=whatsapp&logoColor=white"/>
-<img src="https://img.shields.io/badge/Made%20by-TOOSII%20TECH-FF6B6B?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/version-1.2.0-blueviolet?style=for-the-badge&logo=whatsapp&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Node.js-20.x-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Commands-947+-25D366?style=for-the-badge&logo=whatsapp&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Made%20by-TOOSII%20TECH-FF6B6B?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge"/>
 
-**A powerful, free, open-source WhatsApp bot with 947+ commands**
-*AI · Games · Utility · Group Management · Media · Search · and more*
+  **A powerful, free, open-source WhatsApp bot with 947+ commands**
+  *AI · Games · Utility · Group Management · Media · Search · and more*
 
-</div>
+  </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=0,2,2,5,30&height=4" width="100%"/>
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=0,2,2,5,30&height=4" width="100%"/>
 
-## Features
+  ## Features
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                                                                     │
-│   Toosii AI        Free AI chatbot — no API key needed              │
-│   Games & Fun      8ball, truth/dare, ship, RPS, riddles            │
-│   Group Tools      Antilink, antispam, welcome, polls               │
-│   Media            Stickers, TTS, video/audio download              │
-│   Search           GitHub, news, crypto, weather, recipes           │
-│   Utility          Calculator, translator, QR, currency             │
-│   Owner Tools      Broadcast, sudo users, eval, auto-update         │
-│   Automation       Auto-read, anti-delete, auto-react               │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
-```
+  ```
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                                                                     │
+  │   Toosii AI        Free AI chatbot — no API key needed              │
+  │   Games & Fun      8ball, truth/dare, ship, RPS, riddles            │
+  │   Group Tools      Antilink, antispam, welcome, polls               │
+  │   Media            Stickers, TTS, video/audio download              │
+  │   Search           GitHub, news, crypto, weather, recipes           │
+  │   Utility          Calculator, translator, QR, currency             │
+  │   Owner Tools      Broadcast, sudo users, eval, auto-update         │
+  │   Automation       Auto-read, anti-delete, auto-react               │
+  │                                                                     │
+  └─────────────────────────────────────────────────────────────────────┘
+  ```
 
-## Quick Setup
+  ## Quick Setup
 
-### Step 1 — Get your Session ID
+  ### Step 1 — Get your Session ID
 
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  https://toosiitechdevelopertools.zone.id/session
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+  ```
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    https://toosiitechdevelopertools.zone.id/session
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ```
 
-Pair your WhatsApp number and copy the `SESSION_ID` shown.
+  Pair your WhatsApp number and copy the `SESSION_ID` shown.
 
-### Step 2 — Clone & configure
+  ### Step 2 — Clone & configure
 
-```bash
-git clone https://github.com/TOOSII102/toosii-xd-ultra.git
-cd toosii-xd-ultra/bot
-cp .env.example .env
-```
+  ```bash
+  git clone https://github.com/TOOSII102/toosii-xd-ultra.git
+  cd toosii-xd-ultra/bot
+  cp .env.example .env
+  ```
 
-Open `.env` and fill in:
+  Open `.env` and fill in:
 
-```env
-SESSION_ID=your_session_id_here
-OWNER_NUMBER=254712345678
-```
+  ```env
+  SESSION_ID=your_session_id_here
+  OWNER_NUMBER=254712345678
+  ```
 
-### Step 3 — Install & run
+  ### Step 3 — Install & run
 
-```bash
-npm install
-node index.js
-```
+  ```bash
+  npm install
+  node index.js
+  ```
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=6,11,20&height=4" width="100%"/>
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=6,11,20&height=4" width="100%"/>
 
-## Deploy to Heroku
+  ## Deploy Options
 
-```
-┌─────────────────────────────────────────────────────┐
-│  1. Fork this repo                                  │
-│  2. Create a new Heroku app                         │
-│  3. Connect GitHub → select the "heroku" branch     │
-│  4. Set Config Vars (below)                         │
-│  5. Click Deploy Branch — done                      │
-└─────────────────────────────────────────────────────┘
-```
+  ### Heroku / wolfXnode (heroku branch)
 
-**Required Config Vars:**
+  ```
+  ┌─────────────────────────────────────────────────────────────┐
+  │  1. Fork this repo                                          │
+  │  2. Create a new app (Heroku, wolfXnode, Railway, Koyeb)   │
+  │  3. Connect GitHub → select the "heroku" branch             │
+  │  4. Set the environment variables below                     │
+  │  5. Click Deploy — done                                     │
+  └─────────────────────────────────────────────────────────────┘
+  ```
 
-| Key | Value |
-|:---|:---|
-| `SESSION_ID` | Your session from the generator |
-| `OWNER_NUMBER` | Your number (no `+` or spaces) |
-| `PREFIX` | `,` |
-| `BOT_NAME` | `TOOSII-XD` |
+  **Required environment variables:**
 
-> Also works on **Koyeb**, **Railway**, and **Render** — same steps, same env vars.
->
-> Does **not** work on Vercel, Netlify, or serverless platforms.
+  | Key | Value |
+  |:---|:---|
+  | `SESSION_ID` | Your session from the generator |
+  | `OWNER_NUMBER` | Your number — digits only, no `+` or spaces |
+  | `PREFIX` | `.` (dot — default, change if you prefer) |
+  | `BOT_NAME` | `TOOSII-XD` |
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=12,20,2,5&height=4" width="100%"/>
+  > ⚠️ **wolfXnode note:** Set `PREFIX` explicitly to `.` in your dashboard env vars.
+  > The bot's local config file is wiped on every redeploy, so the env var is the
+  > only persistent way to lock in your prefix.
 
-## Environment Variables
+  ### bot-hosting.net (Pterodactyl / main branch)
 
-```
-┌──────────────────┬──────────────┬───────────────────────────────────────┐
-│ Variable         │ Required     │ Description                           │
-├──────────────────┼──────────────┼───────────────────────────────────────┤
-│ SESSION_ID       │ Yes          │ From session generator                │
-│ OWNER_NUMBER     │ Yes          │ Your WhatsApp number                  │
-│ PREFIX           │ optional     │ Command prefix (default: ,)           │
-│ BOT_NAME         │ optional     │ Bot display name                      │
-│ MODE             │ optional     │ public or private                     │
-│ TIME_ZONE        │ optional     │ e.g. Africa/Nairobi                   │
-│ OPENAI_API_KEY   │ optional     │ OpenAI (free fallback available)      │
-│ WEATHER_API_KEY  │ optional     │ OpenWeatherMap free tier              │
-│ NEWSAPI_API_KEY  │ optional     │ NewsAPI free tier                     │
-└──────────────────┴──────────────┴───────────────────────────────────────┘
-```
+  ```
+  ┌─────────────────────────────────────────────────────────────┐
+  │  1. Create a Node.js server on bot-hosting.net              │
+  │  2. Upload the contents of the "main" branch                │
+  │  3. Set the same env vars in the Pterodactyl panel          │
+  │  4. Start the server — bot files live in bot/ subfolder     │
+  └─────────────────────────────────────────────────────────────┘
+  ```
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=2,5,30,11&height=4" width="100%"/>
+  > Does **not** work on Vercel, Netlify, or serverless platforms.
 
-## Command Highlights
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=12,20,2,5&height=4" width="100%"/>
 
-```
- ╭──────────────────────────────────────────────────────╮
- │  ,menu             →  Full command list              │
- │  ,ai  <question>   →  Chat with Toosii AI            │
- │  ,sticker          →  Image/video to sticker         │
- │  ,play  <song>     →  YouTube audio download         │
- │  ,weather  <city>  →  Current weather                │
- │  ,crypto  <coin>   →  Live crypto price              │
- │  ,github  <user>   →  GitHub profile                 │
- │  ,news  <topic>    →  Latest news headlines          │
- │  ,tts  <text>      →  Text to speech                 │
- │  ,translate  <text>→  Auto-detect & translate        │
- │  ,8ball  <q>       →  Magic 8-ball                   │
- │  ,tod              →  Truth or dare                  │
- │  ,recipe  <dish>   →  Recipe search                  │
- │  ,riddle           →  Random riddle                  │
- │  ,qr  <text>       →  Generate QR code               │
- ╰──────────────────────────────────────────────────────╯
-```
+  ## Environment Variables
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=0,2,2,5,30&height=4" width="100%"/>
+  ```
+  ┌──────────────────┬──────────────┬───────────────────────────────────────┐
+  │ Variable         │ Required     │ Description                           │
+  ├──────────────────┼──────────────┼───────────────────────────────────────┤
+  │ SESSION_ID       │ Yes          │ From session generator                │
+  │ OWNER_NUMBER     │ Yes          │ Your WhatsApp number (digits only)    │
+  │ PREFIX           │ optional     │ Command prefix — default: .  (dot)    │
+  │ BOT_NAME         │ optional     │ Bot display name                      │
+  │ OWNER_NAME       │ optional     │ Your name shown in menus              │
+  │ MODE             │ optional     │ public / private (default: public)    │
+  │ TIME_ZONE        │ optional     │ e.g. Africa/Nairobi                   │
+  │ OPENAI_API_KEY   │ optional     │ OpenAI (free fallback available)      │
+  │ WEATHER_API_KEY  │ optional     │ OpenWeatherMap free tier              │
+  │ NEWSAPI_API_KEY  │ optional     │ NewsAPI free tier                     │
+  └──────────────────┴──────────────┴───────────────────────────────────────┘
+  ```
 
-## Branches
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=2,5,30,11&height=4" width="100%"/>
 
-| Branch | Purpose |
-|:---|:---|
-| `main` | Development branch — monorepo |
-| `heroku` | Deploy-ready — bot files at root, no build steps |
+  ## Command Highlights
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=6,12,20,2&height=4" width="100%"/>
+  ```
+   ╭──────────────────────────────────────────────────────╮
+   │  .menu             →  Full command list              │
+   │  .ai  <question>   →  Chat with Toosii AI            │
+   │  .sticker          →  Image/video to sticker         │
+   │  .play  <song>     →  YouTube audio download         │
+   │  .weather  <city>  →  Current weather                │
+   │  .crypto  <coin>   →  Live crypto price              │
+   │  .github  <user>   →  GitHub profile                 │
+   │  .news  <topic>    →  Latest news headlines          │
+   │  .tts  <text>      →  Text to speech                 │
+   │  .translate <text> →  Auto-detect & translate        │
+   │  .8ball  <q>       →  Magic 8-ball                   │
+   │  .tod              →  Truth or dare                  │
+   │  .recipe  <dish>   →  Recipe search                  │
+   │  .riddle           →  Random riddle                  │
+   │  .qr  <text>       →  Generate QR code               │
+   ╰──────────────────────────────────────────────────────╯
+  ```
 
-## Built With
+  *(Default prefix is `.` — if you changed it, replace the dot with your prefix)*
 
-```
-  ◆  @whiskeysockets/baileys v7   —  WhatsApp Web API
-  ◆  Node.js 20.x                —  Runtime
-  ◆  Pollinations AI             —  Free AI (no key needed)
-  ◆  CoinGecko API               —  Crypto prices (free)
-  ◆  OpenWeatherMap              —  Weather (free tier)
-  ◆  BBC RSS                     —  News feeds (free)
-  ◆  TheMealDB                   —  Recipe search (free)
-  ◆  GitHub API                  —  Developer search (free)
-```
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=0,2,2,5,30&height=4" width="100%"/>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=0,2,2,5,30&height=4" width="100%"/>
+  ## Branches
 
-<div align="center">
+  | Branch | Purpose |
+  |:---|:---|
+  | `main` | Development — monorepo, bot files inside `bot/` subfolder |
+  | `heroku` | Deploy-ready — all bot files at root, no build steps |
 
-```
-  ✦ ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ✦
-  │                                                                │
-  │                  Crafted with care by TOOSII TECH              │
-  │                                                                │
-  ✦ ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ✦
-```
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=6,12,20,2&height=4" width="100%"/>
 
-### Contact & Support
+  ## Built With
 
-[![Telegram](https://img.shields.io/badge/Telegram-%40toosiitech-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/toosiitech)
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-Chat%20Us-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/254746677793)
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-Chat%20Us-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/254748340864)
-[![Session Generator](https://img.shields.io/badge/Session-Get%20Session%20ID-FF6B6B?style=for-the-badge&logo=whatsapp&logoColor=white)](https://toosiitechdevelopertools.zone.id/session)
+  ```
+    ◆  @whiskeysockets/baileys v7   —  WhatsApp Web API
+    ◆  Node.js 20.x                —  Runtime
+    ◆  Pollinations AI             —  Free AI (no key needed)
+    ◆  CoinGecko API               —  Crypto prices (free)
+    ◆  OpenWeatherMap              —  Weather (free tier)
+    ◆  BBC RSS                     —  News feeds (free)
+    ◆  TheMealDB                   —  Recipe search (free)
+    ◆  GitHub API                  —  Developer search (free)
+  ```
 
-**Star this repo if you find it useful — it means a lot!**
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=0,2,2,5,30&height=4" width="100%"/>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,2,5,30&height=80&section=footer" width="100%"/>
+  <div align="center">
 
-</div>
+  ```
+    ✦ ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ✦
+    │                                                                │
+    │                  Crafted with care by TOOSII TECH              │
+    │                                                                │
+    ✦ ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ✦
+  ```
+
+  ### Contact & Support
+
+  [![Telegram](https://img.shields.io/badge/Telegram-%40toosiitech-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/toosiitech)
+  [![WhatsApp](https://img.shields.io/badge/WhatsApp-Chat%20Us-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/254746677793)
+  [![WhatsApp](https://img.shields.io/badge/WhatsApp-Chat%20Us-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/254748340864)
+  [![Session Generator](https://img.shields.io/badge/Session-Get%20Session%20ID-FF6B6B?style=for-the-badge&logo=whatsapp&logoColor=white)](https://toosiitechdevelopertools.zone.id/session)
+
+  **Star this repo if you find it useful — it means a lot!**
+
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,2,5,30&height=80&section=footer" width="100%"/>
+
+  </div>
+  
