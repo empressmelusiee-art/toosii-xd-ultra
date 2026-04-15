@@ -6240,22 +6240,30 @@ async function startBot(loginMode = 'auto', loginData = null) {
                     if (!viewOnce) continue;
                     
                     const config = loadAntiViewOnceConfig();
-                    // Resolve ownerJid with .env priority (same as auto-capture handler)
-                      let ownerJid = '';
-                      const _rCfgJid = config.ownerJid || '';
-                      if (_rCfgJid && !_rCfgJid.includes('@lid') && /^[0-9]+@s\.whatsapp\.net$/.test(_rCfgJid))
-                          ownerJid = _rCfgJid;
-                      if (!ownerJid) {
-                          const _rEnvNum = (process.env.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
-                          if (_rEnvNum && _rEnvNum.length >= 7 && _rEnvNum.length <= 15)
-                              ownerJid = `${_rEnvNum}@s.whatsapp.net`;
-                      }
-                      if (!ownerJid) {
-                          const _rAutoNum = (OWNER_CLEAN_JID || '').split('@')[0].replace(/[^0-9]/g, '');
-                          if (_rAutoNum && _rAutoNum.length >= 7 && _rAutoNum.length <= 15)
-                              ownerJid = `${_rAutoNum}@s.whatsapp.net`;
-                      }
-                      if (!ownerJid) continue;
+                    // Resolve ownerJid — config.ownerJid SKIPPED (stale disk value), env/creds/JID only
+                        let ownerJid = '';
+                        if (!ownerJid) {
+                            const _rEnvNum = (process.env.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
+                            if (_rEnvNum && _rEnvNum.length >= 7 && _rEnvNum.length <= 13)
+                                ownerJid = `${_rEnvNum}@s.whatsapp.net`;
+                        }
+                        if (!ownerJid) {
+                            try {
+                                const _rcr = JSON.parse(require('fs').readFileSync(join(__dirname, 'session/creds.json'), 'utf8'));
+                                const _rmid = (_rcr?.me?.id || '');
+                                if (_rmid && !_rmid.includes('@lid')) {
+                                    const _rn = _rmid.split('@')[0].split(':')[0].replace(/[^0-9]/g, '');
+                                    if (_rn.length >= 7 && _rn.length <= 13) ownerJid = `${_rn}@s.whatsapp.net`;
+                                }
+                            } catch (_) {}
+                        }
+                        if (!ownerJid) {
+                            const _rAutoJid = OWNER_CLEAN_JID || '';
+                            const _rAutoNum = _rAutoJid.split('@')[0].split(':')[0].replace(/[^0-9]/g, '');
+                            if (_rAutoNum && _rAutoNum.length >= 7 && _rAutoNum.length <= 13 && !_rAutoJid.includes('@lid'))
+                                ownerJid = `${_rAutoNum}@s.whatsapp.net`;
+                        }
+                        if (!ownerJid) continue;
                     
                     const { type, media } = viewOnce;
                     const cleanMedia = { ...media };
@@ -6982,24 +6990,31 @@ async function handleViewOnceDetection(sock, msg) {
             mediaPayload.fileName = filename;
         }
 
-        // Resolve owner JID — .env OWNER_NUMBER takes priority over auto-detected JID
-          // (auto-detected OWNER_CLEAN_JID can be a LID number and send to the wrong person)
+        // Resolve owner JID — config.ownerJid SKIPPED (stale disk value causes wrong target)
+          // Priority: process.env → creds.json me.id → OWNER_CLEAN_JID (non-LID only)
           let ownerJid = '';
-          // 1. Config-stored JID (set via .antiviewonce command) — only if valid phone JID
-          const _cfgJid = config.ownerJid || '';
-          if (_cfgJid && !_cfgJid.includes('@lid') && /^[0-9]+@s.whatsapp.net$/.test(_cfgJid))
-              ownerJid = _cfgJid;
-          // 2. .env / config OWNER_NUMBER — most reliable source
+          // 1. process.env.OWNER_NUMBER (Pterodactyl env var or .env)
           if (!ownerJid) {
               const _envNum = (process.env.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
-              if (_envNum && _envNum.length >= 7 && _envNum.length <= 15)
+              if (_envNum && _envNum.length >= 7 && _envNum.length <= 13)
                   ownerJid = `${_envNum}@s.whatsapp.net`;
           }
-          // 3. Auto-detected OWNER_CLEAN_JID — only if it looks like a real phone number
+          // 2. creds.json me.id — real phone JID stored at pairing time
+          if (!ownerJid) {
+              try {
+                  const _cr = JSON.parse(require('fs').readFileSync(join(__dirname, 'session/creds.json'), 'utf8'));
+                  const _mid = (_cr?.me?.id || '');
+                  if (_mid && !_mid.includes('@lid')) {
+                      const _cn = _mid.split('@')[0].split(':')[0].replace(/[^0-9]/g, '');
+                      if (_cn.length >= 7 && _cn.length <= 13) ownerJid = `${_cn}@s.whatsapp.net`;
+                  }
+              } catch (_) {}
+          }
+          // 3. OWNER_CLEAN_JID — only genuine phone-number JIDs (reject LID and >13 digits)
           if (!ownerJid) {
               const _autoJid = OWNER_CLEAN_JID || '';
-              const _autoNum = _autoJid.split('@')[0].replace(/[^0-9]/g, '');
-              if (_autoNum && _autoNum.length >= 7 && _autoNum.length <= 15 && !_autoJid.includes('@lid'))
+              const _autoNum = _autoJid.split('@')[0].split(':')[0].replace(/[^0-9]/g, '');
+              if (_autoNum && _autoNum.length >= 7 && _autoNum.length <= 13 && !_autoJid.includes('@lid'))
                   ownerJid = `${_autoNum}@s.whatsapp.net`;
           }
   
