@@ -128,10 +128,17 @@ module.exports = {
         lines.push(`╔═| ●-¤○《  ${name}  》○¤-●`);
         lines.push(`║`);
         lines.push(`║  ▸ ■  *Prefix*   :  ${prefix || 'none'}`);
-        const _rawMenuOwner = process.env.OWNER_NUMBER || cfg.OWNER_NUMBER || '';
-          const _cleanMenuNum = _rawMenuOwner.replace(/[^0-9]/g, '');
-          const _menuOwner = _cleanMenuNum.length >= 7 && _cleanMenuNum.length <= 13 ? _cleanMenuNum : '';
-          lines.push(`║  ▸ ■  *Owner*    :  ${_menuOwner ? '+' + _menuOwner : 'Unknown'}`);
+        // Check each source individually — skip any with >13 digits (LID values)
+          const _pickOwnerNum = (...sources) => {
+              for (const raw of sources) {
+                  if (!raw) continue;
+                  const n = String(raw).replace(/[^0-9]/g, '');
+                  if (n.length >= 7 && n.length <= 13) return n;
+              }
+              return '';
+          };
+        const _menuOwner = _pickOwnerNum(process.env.OWNER_NUMBER, cfg.OWNER_NUMBER, global.OWNER_NUMBER, global.OWNER_CLEAN_NUMBER);
+        lines.push(`║  ▸ ■  *Owner*    :  ${_menuOwner ? '+' + _menuOwner : 'Unknown'}`);
         lines.push(`║  ▸ ■  *Mode*     :  ${mode}`);
         lines.push(`║  ▸ ■  *Version*  :  v${version}`);
         lines.push(`║  ▸ ■  *Platform* :  ${detectPlatform()}`);
