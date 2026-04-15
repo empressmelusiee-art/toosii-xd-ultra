@@ -6797,7 +6797,7 @@ function loadAntiViewOnceConfig() {
             return _cache_antiviewonce_config;
         }
     } catch {}
-    return { mode: 'private', ownerJid: '' };
+    return { mode: 'private', ownerJid: '', enabled: false };
 }
 
 function saveAntiViewOnceConfig(config) {
@@ -6913,7 +6913,7 @@ async function handleViewOnceDetection(sock, msg) {
             deliveryMode = scope.mode || 'private';
         } else {
             // Legacy flat config
-            enabled = config.mode !== 'off' && (config.mode || config.enabled);
+            enabled = config.enabled !== false && config.mode !== 'off';
             deliveryMode = config.mode === 'public' ? 'chat' : 'private';
         }
         if (!enabled) return;
