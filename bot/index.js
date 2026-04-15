@@ -7440,9 +7440,16 @@ async function handleIncomingMessage(sock, msg) {
         }
         
         // ── Blacklist gate — fires before commands AND chatbot plain-text ─────────
-          {
-              const _blNum = senderJid.split('@')[0].split(':')[0];
-              if (!msg.key.fromMe && isBlacklisted(_blNum)) return;
+          // Handles regular JIDs (254xxx@s.whatsapp.net) AND LID JIDs (@lid)
+          if (!msg.key.fromMe) {
+              const _blRaw   = senderJid.split('@')[0].split(':')[0];
+              // LID senders: resolve to real phone via the existing lidPhoneCache
+              const _blPhone = senderJid.includes('@lid')
+                  ? (lidPhoneCache.get(_blRaw) || _blRaw)
+                  : _blRaw;
+              if (isBlacklisted(_blPhone) || (_blPhone !== _blRaw && isBlacklisted(_blRaw))) {
+                  return; // silently drop — blocked user gets zero response
+              }
           }
 
                   if (!commandName) {
