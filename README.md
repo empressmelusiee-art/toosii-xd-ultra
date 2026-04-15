@@ -6,14 +6,14 @@
 
 [![Version](https://img.shields.io/badge/Version-1.2.0-blueviolet?style=for-the-badge&logo=whatsapp&logoColor=white)](https://github.com/TOOSII102/toosii-xd-ultra/releases)
 [![Node](https://img.shields.io/badge/Node.js-20.x-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org)
-[![Commands](https://img.shields.io/badge/Commands-947+-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](#command-highlights)
+[![Commands](https://img.shields.io/badge/Commands-255+-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](#command-highlights)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 [![Made by](https://img.shields.io/badge/Made%20by-TOOSII%20TECH-FF6B6B?style=for-the-badge)](https://t.me/toosiitech)
 
 <br/>
 
 > **TOOSII-XD ULTRA** is a feature-rich, open-source WhatsApp bot built on the Baileys library. 
-> It delivers 947+ commands across AI, media, group management, games, and utilities — all free, no subscription required.
+> It delivers 255+ commands across AI, media, group management, games, and utilities — all free, no subscription required.
 
 <br/>
 
@@ -174,7 +174,7 @@ The default prefix is `.` (dot). Replace it with your configured prefix if you c
  .qr <text> → Generate a QR code
 ```
 
-Send `.menu` to the bot for the complete list of 947+ commands.
+Send `.menu` to the bot for the complete list of 255+ commands.
 
 ---
 
