@@ -28,7 +28,7 @@
 
   module.exports = {
       name:        'antiviewonce',
-      aliases:     ['avoc', 'antiviewonce', 'antivo'],
+      aliases:     ['avoc', 'antivo'],
       description: 'Control auto-capture of view-once messages',
       category:    'owner',
       ownerOnly:   true,
