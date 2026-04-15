@@ -1,0 +1,29 @@
+{
+  "name": "TOOSII-XD ULTRA",
+  "description": "A powerful, free, open-source WhatsApp bot with 947+ commands. Features AI, Games, Utility, Group Management, Media Tools, Search, Auto-reactions, Anti-ViewOnce, and much more. Built with Baileys & Node.js.",
+  "image": "https://i.ibb.co/Y4JyPsnk/Screenshot-2026-04-14-175511.png",
+  "repository": "https://github.com/TOOSII102/toosii-xd-ultra",
+  "logo": "https://i.ibb.co/4g7rWmss/Chat-GPT-Image-Jan-28-2026-10-30-54-AM.png",
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "nodejs",
+    "baileys",
+    "multi-device"
+  ],
+  "env": {
+    "OWNER_NUMBER": {
+      "description": "Your WhatsApp number with country code, no + (e.g. 254712345678)",
+      "required": true
+    },
+    "SESSION_SECRET": {
+      "description": "Optional session secret",
+      "required": false
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
