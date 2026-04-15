@@ -6793,6 +6793,8 @@ function loadAntiViewOnceConfig() {
             const parsed = JSON.parse(fs.readFileSync(localFile, 'utf8'));
             // Accept both legacy { mode } and new { gc, pm } formats
             if (parsed && typeof parsed === 'object' && (parsed.mode || parsed.gc || parsed.pm)) {
+                // Migrate: older configs lack enabled field — default OFF (require explicit .antiviewonce on)
+                if (!('enabled' in parsed)) parsed.enabled = false;
                 return parsed;
             }
         }
