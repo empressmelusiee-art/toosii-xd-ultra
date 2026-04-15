@@ -12,7 +12,7 @@
 
 <br/>
 
-> **TOOSII-XD ULTRA** is a feature-rich, open-source WhatsApp bot built on the Baileys library.  
+> **TOOSII-XD ULTRA** is a feature-rich, open-source WhatsApp bot built on the Baileys library. 
 > It delivers 947+ commands across AI, media, group management, games, and utilities — all free, no subscription required.
 
 <br/>
@@ -27,8 +27,8 @@
 - [Prerequisites](#prerequisites)
 - [Local Setup](#local-setup)
 - [Deployment](#deployment)
-  - [Heroku / wolfXnode](#heroku--wolfxnode)
-  - [bot-hosting.net / Pterodactyl](#bot-hostingnet--pterodactyl)
+ - [Heroku & Cloud Platforms](#heroku--cloud-platforms)
+ - [bot-hosting.net / Pterodactyl](#bot-hostingnet--pterodactyl)
 - [Environment Variables](#environment-variables)
 - [Command Highlights](#command-highlights)
 - [Branches](#branches)
@@ -101,7 +101,7 @@ node index.js
 
 ## Deployment
 
-### Heroku / wolfXnode
+### Heroku & Cloud Platforms
 
 Use the **`heroku`** branch — all bot files live at the root with no build steps required.
 
@@ -113,11 +113,11 @@ Use the **`heroku`** branch — all bot files live at the root with no build ste
 4. Add the [environment variables](#environment-variables) in your dashboard
 5. Deploy
 
-**Compatible platforms:** Heroku · wolfXnode · Railway · Koyeb · Render
+**Compatible platforms:** Heroku · Railway · Koyeb · Render
 
 **Not compatible with:** Vercel, Netlify, or any serverless/edge platform.
 
-> **Note for Heroku and wolfXnode users:**
+> **Note for Heroku and cloud platform users:**
 > These platforms use an ephemeral filesystem — local files (including the bot's saved settings) are wiped on every redeploy. Always set `PREFIX`, `MODE`, and other preferences as environment variables in your dashboard rather than relying on in-bot settings commands. This ensures your configuration survives redeployments.
 
 ---
@@ -157,21 +157,21 @@ Use the **`main`** branch — bot files are located inside the `bot/` subfolder.
 The default prefix is `.` (dot). Replace it with your configured prefix if you changed it.
 
 ```
-  .menu               →  Full command list with categories
-  .ai  <question>     →  Chat with Toosii AI
-  .sticker            →  Convert image or video to sticker
-  .play  <song>       →  Download YouTube audio
-  .weather  <city>    →  Current weather conditions
-  .crypto  <coin>     →  Live cryptocurrency price
-  .github  <user>     →  GitHub profile lookup
-  .news  <topic>      →  Latest news headlines
-  .tts  <text>        →  Text to speech audio
-  .translate  <text>  →  Auto-detect language and translate
-  .8ball  <question>  →  Magic 8-ball answer
-  .tod                →  Truth or dare
-  .recipe  <dish>     →  Recipe search
-  .riddle             →  Random riddle
-  .qr  <text>         →  Generate a QR code
+ .menu → Full command list with categories
+ .ai <question> → Chat with Toosii AI
+ .sticker → Convert image or video to sticker
+ .play <song> → Download YouTube audio
+ .weather <city> → Current weather conditions
+ .crypto <coin> → Live cryptocurrency price
+ .github <user> → GitHub profile lookup
+ .news <topic> → Latest news headlines
+ .tts <text> → Text to speech audio
+ .translate <text> → Auto-detect language and translate
+ .8ball <question> → Magic 8-ball answer
+ .tod → Truth or dare
+ .recipe <dish> → Recipe search
+ .riddle → Random riddle
+ .qr <text> → Generate a QR code
 ```
 
 Send `.menu` to the bot for the complete list of 947+ commands.
@@ -183,7 +183,7 @@ Send `.menu` to the bot for the complete list of 947+ commands.
 | Branch | Structure | Use for |
 |:---|:---|:---|
 | `main` | Monorepo — bot files inside `bot/` | Local development, Pterodactyl |
-| `heroku` | Flat — all files at root | Cloud platforms (Heroku, wolfXnode, Railway) |
+| `heroku` | Flat — all files at root | Cloud platforms (Heroku, Railway, Koyeb, Render) |
 
 ---
 
