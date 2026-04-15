@@ -1262,7 +1262,7 @@ const DEFAULT_ANTIVIEWONCE_CONFIG = {
     mode: 'private',
     autoSave: true,
     ownerJid: '',
-    enabled: true,
+    enabled: false,
     maxHistory: 500
 };
 
@@ -6796,6 +6796,8 @@ function saveAntiViewOnceConfig(config) {
         console.log('⚠️ Anti-viewonce config save error:', err.message);
     }
 }
+globalThis._saveAntiViewOnceConfig = saveAntiViewOnceConfig;
+globalThis._loadAntiViewOnceConfig = loadAntiViewOnceConfig;
 
 function detectViewOnceMedia(rawMessage) {
     if (!rawMessage) return null;
