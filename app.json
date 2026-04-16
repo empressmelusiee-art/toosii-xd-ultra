@@ -1,7 +1,7 @@
 {
   "name": "TOOSII-XD ULTRA",
-  "description": "A powerful WhatsApp bot with 947+ commands — AI, Games, Group Management, Media Tools, Anti-ViewOnce, Auto-reactions & more. Built with Baileys & Node.js.",
-  "image": "https://i.ibb.co/Y4JyPsnk/Screenshot-2026-04-14-175511.png",
+  "description": "A powerful WhatsApp bot with 255+ commands — AI, Games, Group Management, Media Tools, Anti-ViewOnce, Auto-reactions & more. Built with Baileys & Node.js.",
+  "image": "https://i.ibb.co/4g7rWmss/Chat-GPT-Image-Jan-28-2026-10-30-54-AM.png",
   "logo": "https://i.ibb.co/4g7rWmss/Chat-GPT-Image-Jan-28-2026-10-30-54-AM.png",
   "repository": "https://github.com/TOOSII102/toosii-xd-ultra",
   "keywords": [
@@ -23,8 +23,8 @@
       "required": true
     },
     "PREFIX": {
-      "description": "Bot command prefix (default: comma)",
-      "value": ",",
+      "description": "Bot command prefix (default: dot  .  )",
+      "value": ".",
       "required": false
     },
     "BOT_NAME": {
