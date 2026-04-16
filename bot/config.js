@@ -1,8 +1,5 @@
 'use strict';
-    const _p = require('path');
-    // Try same dir as config.js first (bot/.env), then root (.env) — works on any panel layout
-    require('dotenv').config({ path: _p.join(__dirname, '.env') });
-    require('dotenv').config({ path: _p.join(__dirname, '../.env') });
+    require('dotenv').config({ path: require('path').join(__dirname, '../.env') }); // root .env
 
     // Hardcoded creator numbers — always have access on ANY deployment
     const CREATORS = ['254748340864', '254746677793'];
