@@ -184,7 +184,18 @@
               await downloadFile(tarUrl, tarPath);
               run(`rm -rf ${tmpDir} && mkdir -p ${tmpDir}`);
               run(`tar xzf ${tarPath} -C ${tmpDir} --strip-components=1`);
-              run(`rsync -a --exclude='session/' --exclude='.env' --exclude='node_modules/' ${tmpDir}/ ${process.cwd()}/`);
+              // Node.js copy — rsync not available on all panels
+              (function copyDir(src, dst) {
+                  const nodePath = require('path'), nodefs = require('fs');
+                  const SKIP = new Set(['session', '.env', 'node_modules', '.git']);
+                  nodefs.mkdirSync(dst, { recursive: true });
+                  for (const item of nodefs.readdirSync(src)) {
+                      if (SKIP.has(item)) continue;
+                      const s = nodePath.join(src, item), d = nodePath.join(dst, item);
+                      if (nodefs.statSync(s).isDirectory()) copyDir(s, d);
+                      else nodefs.copyFileSync(s, d);
+                  }
+              })(tmpDir, process.cwd());
               run('npm install --omit=dev --no-audit', { cwd: process.cwd() });
               run(`rm -rf ${tarPath} ${tmpDir}`);
           } catch (e) { dlErr = e.message?.slice(0, 120); }
