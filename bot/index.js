@@ -1454,7 +1454,7 @@ setInterval(() => {
     const now = Date.now();
     const lag = now - _lagCheckTs - 5000;
     _lagCheckTs = now;
-    if (lag > 1000) {
+    if (lag > 2000) {
         originalConsoleMethods.log(`⚠️ [EVENT-LOOP] Lag detected: ${lag}ms`);
     }
 }, 5000);
@@ -6690,7 +6690,13 @@ async function handleConnectionCloseSilently(lastDisconnect, loginMode, phoneNum
             UltraCleanLogger.info('💡 To fix: Get a new SESSION_ID → https://toosiitechdevelopertools.zone.id/session → set it in your .env → restart the bot.');
             return;
         }
-        UltraCleanLogger.warning(`Session logged out (attempt ${connectionAttempts}/3). Cleaning session and retrying...`);
+        // First 401 after a restart is often transient — retry WITHOUT wiping session
+          if (connectionAttempts <= 1) {
+              UltraCleanLogger.warning(`Session disconnect (attempt ${connectionAttempts}/3). Retrying with existing session...`);
+              setTimeout(async () => { await startBot(loginMode, phoneNumber); }, 8000);
+              return;
+          }
+                  UltraCleanLogger.warning(`Session logged out (attempt ${connectionAttempts}/3). Cleaning session and retrying...`);
         cleanSession();
         const logoutDelay = Math.min(15000 * Math.pow(2, Math.min(connectionAttempts, 3)), 120000);
         UltraCleanLogger.info(`🔄 Restarting in ${Math.round(logoutDelay/1000)}s after logout...`);
@@ -6731,7 +6737,13 @@ async function handleConnectionCloseSilently(lastDisconnect, loginMode, phoneNum
             UltraCleanLogger.info('💡 To fix: Get a new SESSION_ID → https://toosiitechdevelopertools.zone.id/session → set it in your .env → restart the bot.');
             return;
         }
-        UltraCleanLogger.warning(`Auth error (${statusCode}) detected (attempt ${connectionAttempts}/3), cleaning session...`);
+        // First 403 after restart — retry without wiping session
+          if (connectionAttempts <= 1) {
+              UltraCleanLogger.warning(`Auth error ${statusCode} (attempt ${connectionAttempts}/3). Retrying...`);
+              setTimeout(async () => { await startBot(loginMode, phoneNumber); }, 8000);
+              return;
+          }
+                  UltraCleanLogger.warning(`Auth error (${statusCode}) detected (attempt ${connectionAttempts}/3), cleaning session...`);
         cleanSession();
         const authDelay = Math.min(15000 * Math.pow(2, Math.min(connectionAttempts, 3)), 120000);
         UltraCleanLogger.info(`🔄 Restarting in ${Math.round(authDelay/1000)}s after auth error...`);
@@ -8235,15 +8247,22 @@ async function main() {
         const sessionIdFromEnv = process.env.SESSION_ID;
         const hasEnvSession = sessionIdFromEnv && sessionIdFromEnv.trim() !== '';
         
-        // Auto-restore session from update backup if session files are missing
-          const _updateBackupCreds = path.join('./data', 'session_creds_backup.json');
-          if (!fs.existsSync(path.join(SESSION_DIR, 'creds.json')) && fs.existsSync(_updateBackupCreds)) {
-              try {
-                  if (!fs.existsSync(SESSION_DIR)) fs.mkdirSync(SESSION_DIR, { recursive: true });
-                  fs.copyFileSync(_updateBackupCreds, path.join(SESSION_DIR, 'creds.json'));
-                  UltraCleanLogger.success('\u2705 Session restored from update backup');
-              } catch (_restoreErr) {
-                  UltraCleanLogger.warning('\u26a0\ufe0f Could not restore session backup: ' + _restoreErr.message);
+        // Auto-restore session from backup if session files are missing
+          // Primary: session/creds_backup.json (inside .gitignored dir — survives git clean -fd)
+          // Secondary: data/session_creds_backup.json (redundant)
+          const _primaryBackup = path.join(SESSION_DIR, 'creds_backup.json');
+          const _dataBackup    = path.join('./data', 'session_creds_backup.json');
+          if (!fs.existsSync(path.join(SESSION_DIR, 'creds.json'))) {
+              const _backupSrc = fs.existsSync(_primaryBackup) ? _primaryBackup
+                               : fs.existsSync(_dataBackup) ? _dataBackup : null;
+              if (_backupSrc) {
+                  try {
+                      if (!fs.existsSync(SESSION_DIR)) fs.mkdirSync(SESSION_DIR, { recursive: true });
+                      fs.copyFileSync(_backupSrc, path.join(SESSION_DIR, 'creds.json'));
+                      UltraCleanLogger.success('\u2705 Session restored from backup: ' + _backupSrc);
+                  } catch (_restoreErr) {
+                      UltraCleanLogger.warning('\u26a0\ufe0f Could not restore session backup: ' + _restoreErr.message);
+                  }
               }
           }
 
